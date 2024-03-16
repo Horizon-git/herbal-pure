@@ -1,0 +1,23 @@
+@import '../../styles/utils';
+
+.nav {
+  &__list {
+    display: flex;
+    gap: 64px;
+  }
+
+  &__link {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    color: $secondary-color;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $main-color;
+    }
+
+    &--active {
+      color: $main-color;
+    }
+  }
+}

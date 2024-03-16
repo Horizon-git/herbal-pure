@@ -1,0 +1,84 @@
+@import '../../styles/utils';
+
+.footer {
+  padding: 45px;
+  margin-top: 104px;
+  box-shadow: 0 0 0 1px #e2e6e9;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+  }
+
+  &__logo {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    color: $main-color;
+    transition: all .3s;
+
+    &:hover {
+      color: $main-color;
+      transform: scale(1.05);
+    }
+  }
+
+  &__content {
+    display: flex;
+    gap: 100px;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__link {
+    transition: all .3s;
+    &:hover {
+      color: $main-color;
+    }
+  }
+
+  &__socials {
+    display: flex;
+    margin-top: 15px;
+    gap: 15px;
+  }
+  
+  
+  &__copyright {
+    margin-top: 45px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  &__go-up {
+    position: fixed;
+    right: 5%;
+    bottom: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 50px;
+    height: 50px;
+    border: 1px solid $main-color;
+    border-radius: 100%;
+    font-size: 18px;
+    z-index: 2;
+
+    @include hover(scale, 1.1);
+  }
+
+  &__go-up:focus {
+    color: $main-color;
+  }
+
+  &__go-up:hover {
+    background-color: $main-color;
+    color: #fff;
+  }
+}

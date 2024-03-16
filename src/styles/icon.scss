@@ -1,0 +1,46 @@
+@import "./utils";
+
+.icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+
+  &--cart {
+    background-image: url(../images/icons/cart.svg);
+    transition: all .3s;
+
+    &:hover {
+      background-image: url(../images/icons/cart-green.svg);
+    }
+  }
+
+  &--login {
+    background-image: url(../images/icons/login.svg);
+    transition: all .3s;
+
+    &:hover {
+      background-image: url(../images/icons/login-green.svg);
+    }
+  }
+
+  &-cart--active {
+    background-image: url(../images/icons/cart-green.svg);
+  }
+
+  &-login--active {
+    background-image: url(../images/icons/login-green.svg);
+  }
+
+  &--instagram {
+    background-image: url(../images/icons/instagram.svg);
+
+    @include hover(scale, 1.1);
+  }
+
+  &--facebook {
+    background-image: url(../images/icons/facebook.svg);
+
+    @include hover(scale, 1.1);
+  }
+}

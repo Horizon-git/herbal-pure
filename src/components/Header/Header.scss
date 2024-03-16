@@ -1,0 +1,39 @@
+@import '../../styles/utils';
+
+.header {
+  box-shadow: 0 1px 0 0 #e2e6e9;
+
+  &__container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__right {
+    display: flex;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    color: $main-color;
+    padding: 15px;
+    transition: all .3s;
+
+    &:hover {
+      color: $main-color;
+      transform: scale(1.05);
+    }
+  }
+
+  &__icons {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+}

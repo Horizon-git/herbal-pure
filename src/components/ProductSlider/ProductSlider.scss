@@ -1,0 +1,53 @@
+@import "../../styles/utils";
+
+.product-slider {
+  margin-top: 104px;
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__container {
+    display: flex;
+    gap: 24px;
+    margin: 0 auto 20px;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    gap: 16px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    width: 32px;
+    height: 32px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba($color: $main-color, $alpha: .4);
+    border-radius: 10px;
+    transition: all 0.3s;
+  }
+
+  &__button:hover {
+    cursor: pointer;
+    border: 1px solid rgba($color: $main-color, $alpha: .8);
+  }
+}
