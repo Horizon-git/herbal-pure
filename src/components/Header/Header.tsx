@@ -13,8 +13,8 @@ export const headerLinks = [
     path: '/about-us',
   },
   {
-    name: 'Shop',
-    path: '/shop',
+    name: 'Store',
+    path: '/store',
   },
   {
     name: 'Contact us',

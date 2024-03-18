@@ -1,0 +1,43 @@
+@import "../../styles//utils";
+
+.search {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    background-color: #f3f3f3;
+    height: 36px;
+    outline: 0;
+    border: 0;
+    padding-inline: 24px 36px;
+    font-weight: 500;
+  }
+
+  
+  &__button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--submit {
+      background-color: $main-color;
+    }
+
+    &--reset {
+      margin-left: -36px;
+    }
+
+    // &--visible {
+    //   visibility: visible;
+    // }
+  }
+}

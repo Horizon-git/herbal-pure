@@ -43,4 +43,16 @@
 
     @include hover(scale, 1.1);
   }
+
+  &--search {
+    background-image: url(../images/icons/search.svg);
+    width: 16px;
+    height: 16px;
+  }
+
+  &--cancel {
+    background-image: url(../images/icons/cancel.svg);
+    width: 16px;
+    height: 16px;
+  }
 }

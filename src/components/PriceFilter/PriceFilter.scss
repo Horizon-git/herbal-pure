@@ -1,0 +1,67 @@
+@import '../../styles/utils';
+
+.price-filter {
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: column;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__description {
+    display: flex;
+    gap: 10px;
+  }
+  
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__track {
+    height: 8px;
+    width: 100%;
+    background-color: #f3f3f3;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  
+  &__thumb {
+    height: 14px;
+    width: 14px;
+    background-color: #54bc59;
+    position: absolute;
+    z-index: 1;
+    cursor: grab;
+  }
+
+  &__button {
+    font-family: "Montserrat", sans-serif;
+    padding: 5px 10px;
+    background-color: $main-color;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all .3s;
+
+    &:hover {
+      background-color: rgba($main-color, .75);
+    }
+
+    &--red {
+      background-color: rgb(240, 55, 55);
+
+      &:hover {
+        background-color: rgba(rgb(240, 55, 55), .75);
+      }
+    }
+  }
+}
+
+
+
+

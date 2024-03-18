@@ -1,0 +1,27 @@
+@import '../../styles/utils';
+
+.dropdown {
+  position: relative;
+
+  &__name {
+    font-size: 10px;
+    position: absolute;
+    top: -3px;
+    left: 6px;
+    background: repeating-linear-gradient($light-gray, $light-gray 49.9%, $light-gray 50.1%,$light-gray 100%);
+    padding-inline: 3px;
+  }
+
+  &__select {
+    height: 40px;
+    border-radius: 5px;
+    padding-inline: 5px;
+    background-color: $light-gray;
+    min-width: 70px;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  &__select:focus {
+    outline: none;
+  }
+}

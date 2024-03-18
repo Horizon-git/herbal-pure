@@ -7,4 +7,5 @@ export type Product = {
   discount: number;
   amount: number | null;
   weight: number;
+  categoryId: string;
 };

@@ -9,7 +9,7 @@ type Props = {
   title: string;
 };
 
-const ProductSlider: React.FC<Props> = ({ products, title }) => {
+export const ProductSlider: React.FC<Props> = ({ products, title }) => {
   const step = 1;
   const frameSize = 4;
   const itemWidth = 272;
@@ -90,5 +90,3 @@ const ProductSlider: React.FC<Props> = ({ products, title }) => {
     </section>
   );
 };
-
-export default ProductSlider;

@@ -22,6 +22,13 @@ export const footerLinks = [
 ];
 
 export const Footer = () => {
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <footer className="footer">
       <div className="footer__container">
@@ -52,9 +59,9 @@ export const Footer = () => {
       <p className="footer__copyright">
         @ 2024 Herbal Pure. All rights reserved.
       </p>
-      <a href="#" className="footer__go-up">
+      <button type="button" className="footer__go-up" onClick={goToTop}>
         &#8593;
-      </a>
+      </button>
     </footer>
   );
 };

@@ -69,6 +69,7 @@
     border-radius: 100%;
     font-size: 18px;
     z-index: 2;
+    background-color: transparent;
 
     @include hover(scale, 1.1);
   }
@@ -80,5 +81,6 @@
   &__go-up:hover {
     background-color: $main-color;
     color: #fff;
+    cursor: pointer;
   }
 }

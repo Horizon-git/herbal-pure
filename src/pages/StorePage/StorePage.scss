@@ -1,0 +1,49 @@
+@import '../../styles/utils';
+
+.store {
+  margin-block: 70px;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1176px;
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: flex;
+    gap: 40px;
+  }
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  &__sort-bar {
+    width: 864px;
+    height: 64px;
+    background-color: $light-gray;
+    display: flex;
+    align-items: center;
+    padding-inline: 20px;
+    justify-content: space-between;
+  }
+
+  &__product-count {
+    font-size: 14px;
+  }
+
+  &__dropdowns {
+    display: flex;
+    gap: 20px;
+  }
+}
