@@ -16,7 +16,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
   return (
     <div className="card">
-      <Link to={`/products/${id}`} className="card__link">
+      <Link to={`/product/${id}`} className="card__link">
         <img src={`${imageUrl}`} alt={name} className="card__img" />
         <h2 className="card__title">{`${supplier}, ${name}, ${amount || ''} capsules, ${weight}g`}</h2>
 

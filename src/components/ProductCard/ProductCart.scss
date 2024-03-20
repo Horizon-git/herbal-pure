@@ -1,4 +1,5 @@
 @import "../../styles/utils";
+@import "../../styles/buttons.scss";
 
 .card {
   width: 272px;
@@ -45,30 +46,5 @@
 
   &__buttons {
     display: flex;
-  }
-
-  .add-to-cart {
-    font-family: "Montserrat", sans-serif;
-    width: 100%;
-    background-color: $main-color;
-    padding-block: 11px;
-    color: #fff;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    transition: all 0.3s;
-    border: 1px solid $main-color;
-    border-radius: 20px;
-  }
-
-  .add-to-cart:hover {
-    cursor: pointer;
-    background-color: #fff;
-    color: $main-color;
-  }
-
-  .add-to-cart--active {
-    background-color: #fff;
-    color: #27ae60;
   }
 }

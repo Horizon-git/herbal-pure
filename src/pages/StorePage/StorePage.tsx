@@ -15,6 +15,7 @@ import { getSearchWith } from '../../helpers/searchWith';
 import { CategoryWidget } from '../../components/CategoryWidget/CategoryWidget';
 import { categories, findCategoryById } from '../../data/categories';
 import { DropDown } from '../../components/DropDown/DropDown';
+import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 
 
 const sortOptions = [
@@ -36,6 +37,7 @@ const itemsPerPageOptions = [
   { label: '6', value: '6' },
   { label: '12', value: '12' },
 ];
+
 
 export const StorePage = () => {
   const { categoryId = '' } = useParams();
@@ -138,9 +140,21 @@ export const StorePage = () => {
     }));
   };
 
+  const linksObj1 = [
+    { to: '/', label: 'Home' },
+    { to: '/store', label: 'Store' },
+  ];
+  
+  const linksObj2 = [
+    { to: '/', label: 'Home' },
+    { to: '/store', label: 'Store' },
+    { to: `/store/${categoryId}`, label: findCategoryById(categoryId, categories)?.name },
+  ];
+
   return (
     <main className="store">
       <div className="store__container">
+        {categoryId ? <Breadcrumbs links={linksObj2} /> : <Breadcrumbs links={linksObj1} />}
         <h1 className="store__title">{categoryId ? findCategoryById(categoryId, categories)?.name :'All products'}</h1>
         <div className="store__content">
           <aside className="store__sidebar">

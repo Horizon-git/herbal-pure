@@ -1,0 +1,26 @@
+@import "../../styles/utils";
+
+.breadcrumbs {
+  display: flex;
+  margin-block: 25px 30px;
+
+  &__part {
+    display: flex;
+    font-size: 14px;
+    font-style: normal;
+  }
+
+  &__link {
+    &:hover {
+      color: $main-color;
+    }
+
+    &--active {
+      color: $main-color;
+    }
+  }
+
+  &__separator {
+    margin-inline: 8px;
+  }
+}
