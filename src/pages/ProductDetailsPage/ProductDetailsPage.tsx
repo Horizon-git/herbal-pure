@@ -1,10 +1,14 @@
 /* eslint-disable max-len */
+// import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
+import { useMemo } from 'react';
 import { ProductDetails } from '../../types/ProductDetails';
 import { ProductSlider } from '../../components/ProductSlider/ProductSlider';
 import { products } from '../../data/products';
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 import './ProductDetailsPage.scss';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { addCartItem, removeCartItem } from '../../features/cartSlice';
 
 export const product: ProductDetails = {
   id: 1,
@@ -16,6 +20,7 @@ export const product: ProductDetails = {
   discount: 10,
   price: 50,
   categoryId: '1.1',
+  quantity: 1000,
   description:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat diam, non iaculis ex dictum ut. Aenean sit amet odio nisi. Vestibulum vel dolor et justo sollicitudin tincidunt. Mauris eleifend elit metus. Fusce blandit nulla at massa venenatis, sed tincidunt nisl tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat diam, non iaculis ex dictum ut. Aenean sit amet odio nisi.',
   // features: `
@@ -42,6 +47,37 @@ const linksObj = [
 ];
 
 export const ProductDetailsPage = () => {
+  const cart = useAppSelector(state => state.cart.cart);
+  const dispatch = useAppDispatch();
+
+  // const { productId = ''} = useParams();
+
+  const isCart = useMemo(() => {
+    return cart.some(item => item.id === product.id);
+  }, [cart]);
+
+  const addToCart = () => {
+    const item = {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.imageUrl,
+      supplier: product.supplier,
+      price: product.price,
+      discount: product.discount,
+      amount: product.amount,
+      weight: product.weight,
+      quantity: product.quantity,
+      categoryId: product.categoryId,
+      cartQuantity: 1,
+    };
+
+    if (!isCart) {
+      dispatch(addCartItem(item));
+    } else {
+      dispatch(removeCartItem(item));
+    }
+  };
+
   const {
     // id,
     // imageUrl,
@@ -58,7 +94,7 @@ export const ProductDetailsPage = () => {
   } = product;
 
   return (
-    <main className="details">
+    <div className="details">
       <div className="details__container">
         <Breadcrumbs links={linksObj} />
         <div className="details__top">
@@ -76,10 +112,11 @@ export const ProductDetailsPage = () => {
               type="button"
               data-cy="addToCart"
               className={classNames('add-to-cart add-to-cart--details', {
-                'add-to-cart--active': false,
+                'add-to-cart--active': isCart,
               })}
+              onClick={addToCart}
             >
-              Add to cart
+              {!isCart ? 'Add to cart' : 'Added to cart'}
             </button>
           </div>
         </div>
@@ -101,6 +138,6 @@ export const ProductDetailsPage = () => {
         </div>
         <ProductSlider title="Recommended products" products={products} />
       </div>
-    </main>
+    </div>
   );
 };

@@ -10,5 +10,6 @@ export type ProductDetails = {
   categoryId: string;
   description: string;
   features: string[];
+  quantity: number;
   instruction: string;
 };

@@ -10,15 +10,33 @@
   transition: all 0.3s;
   border: 1px solid $main-color;
   border-radius: 20px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba($main-color, .7);
+  }
+  
+  &--active {
+    background-color: #fff;
+    color: $main-color;
+  
+    &:hover {
+      background-color: rgba(#fff, .7);
+      color: $main-color;
+    }
+  }
+
+  &--disabled {
+    background-color: $light-gray;
+    color: #363636;
+    border: 1px solid transparent;
+
+    &:hover {
+      background-color: $light-gray;
+      color: #363636;
+      border: 1px solid transparent;
+      cursor: not-allowed;
+    }
+  }
 }
 
-.add-to-cart:hover {
-  cursor: pointer;
-  background-color: #fff;
-  color: $main-color;
-}
-
-.add-to-cart--active {
-  background-color: #fff;
-  color: #27ae60;
-}

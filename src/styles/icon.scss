@@ -8,6 +8,7 @@
 
   &--cart {
     background-image: url(../images/icons/cart.svg);
+    position: relative;
     transition: all .3s;
 
     &:hover {
@@ -54,5 +55,9 @@
     background-image: url(../images/icons/cancel.svg);
     width: 16px;
     height: 16px;
+  }
+
+  &--close {
+    background-image: url(../images/icons/close.svg);
   }
 }

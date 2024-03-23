@@ -1,0 +1,25 @@
+@import "./styles//utils";
+
+body {
+  position: relative;
+}
+
+.wrapper {
+  min-height: calc(100vh - 270px);
+}
+
+.notification {
+  display: none;
+  padding: 20px;
+  background-color: $main-color;
+  color: #fff;
+  position: fixed;
+  bottom: 20px;
+  border-radius: 20px;
+  left: 50%;
+  transition: all .3s;
+}
+
+.visible {
+  display: block;
+}

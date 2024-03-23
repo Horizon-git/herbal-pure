@@ -1,0 +1,122 @@
+@import "../../styles/utils";
+
+.cart {
+  max-width: 1136px;
+  margin: 30px auto;
+
+  &__container {
+    margin-top: 50px;
+    display: flex;
+    gap: 50px;
+  }
+
+  &__table {
+    border-collapse: collapse;
+  }
+
+  &__header {
+    border-bottom: 1px solid $light-gray;
+  }
+
+  &__head-col {
+    text-align: center;
+    padding: 0 20px 20px 20px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  &__table-col {
+    padding: 20px;
+    vertical-align: middle;
+    min-width: 50px;
+    line-height: 21px;
+  }
+
+  &__image {
+    width: 70px;
+  }
+
+  &__quantity {
+    padding: 10px;
+    border: none;
+    width: 100%;
+    background-color: $light-gray;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    padding: 25px;
+    background-color: $main-color;
+    color: #fff;
+    width: 300px;
+    height: 240px;
+  }
+
+  &__summary-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__summary-title {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  &__summary-total {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  &__summary-price {
+    margin-bottom: 10px;
+    font-size: 21px;
+    font-weight: 600;
+  }
+
+  &__checkout {
+    height: 40px;
+    background-color: #fff;
+    color: #363636;
+    border: none;
+    font-family: Montserrat, sans-serif;
+    transition: all .3s;
+    font-weight: 600;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #363636;
+      color: #fff;
+    }
+  }
+
+  &__delete {
+    background-color: initial;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    border: none;
+  }
+}
+
+.cart-empty {
+  height: calc(100vh - 270px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+

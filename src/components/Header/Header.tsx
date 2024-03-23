@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.scss';
 import './Nav.scss';
+import { useAppSelector } from '../../app/hooks';
+import { getTotalCount } from '../../helpers/getTotalCount';
 
 export const headerLinks = [
   {
@@ -38,6 +40,8 @@ const getIconClassLogin = ({ isActive }: { isActive: boolean }) =>
   });
 
 export const Header = () => {
+  const cart = useAppSelector(state => state.cart.cart);
+
   return (
     <header className="header">
       <div className="header__container">
@@ -56,7 +60,11 @@ export const Header = () => {
           </ul>
         </nav>
         <div className="header__icons">
-          <NavLink className={getIconClassCart} to="/cart" />
+          <NavLink className={getIconClassCart} to="/cart">
+            {cart.length > 0 && (
+              <span className="header__counter">{getTotalCount(cart)}</span>
+            )}
+          </NavLink>
           <NavLink className={getIconClassLogin} to="/login" />
         </div>
       </div>

@@ -1,4 +1,4 @@
-export type Product = {
+export interface CartItem {
   id: number;
   imageUrl: string;
   name: string;
@@ -9,4 +9,5 @@ export type Product = {
   weight: number;
   quantity: number;
   categoryId: string;
-};
+  cartQuantity: number;
+}

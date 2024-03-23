@@ -6,7 +6,7 @@ import { ProductSlider } from '../../components/ProductSlider/ProductSlider';
 
 export const HomePage = () => {
   return (
-    <main className="home">
+    <div className="home">
       <Banner />
       <div className="home__container">
         <ProductSlider title="Hot prices" products={products} />
@@ -43,6 +43,6 @@ export const HomePage = () => {
         </section>
         <ProductSlider title="Featured products" products={products} />
       </div>
-    </main>
+    </div>
   );
 };

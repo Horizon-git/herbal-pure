@@ -10,6 +10,7 @@ export const products: Product[] = [
     amount: 100,
     discount: 10,
     price: 50,
+    quantity: 10,
     categoryId: '1.1',
   },
   {
@@ -21,6 +22,7 @@ export const products: Product[] = [
     amount: 200,
     discount: 20,
     price: 150,
+    quantity: 20,
     categoryId: '1.1',
   },
   {
@@ -32,6 +34,7 @@ export const products: Product[] = [
     amount: 300,
     discount: 30,
     price: 100,
+    quantity: 3,
     categoryId: '1.1',
   },
   {
@@ -43,6 +46,7 @@ export const products: Product[] = [
     amount: 400,
     discount: 0,
     price: 200,
+    quantity: 1,
     categoryId: '5',
   },
   {
@@ -54,6 +58,7 @@ export const products: Product[] = [
     amount: 500,
     discount: 0,
     price: 175,
+    quantity: 0,
     categoryId: '3',
   },
   {
@@ -65,6 +70,7 @@ export const products: Product[] = [
     amount: 600,
     discount: 0,
     price: 125,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -76,6 +82,7 @@ export const products: Product[] = [
     amount: 700,
     discount: 0,
     price: 150,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -87,6 +94,7 @@ export const products: Product[] = [
     amount: 800,
     discount: 0,
     price: 175,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -98,6 +106,7 @@ export const products: Product[] = [
     amount: 900,
     discount: 0,
     price: 200,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -109,6 +118,7 @@ export const products: Product[] = [
     amount: 1000,
     discount: 0,
     price: 150,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -120,6 +130,7 @@ export const products: Product[] = [
     amount: 1100,
     discount: 0,
     price: 125,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -131,6 +142,7 @@ export const products: Product[] = [
     amount: 1200,
     discount: 0,
     price: 175,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -142,6 +154,7 @@ export const products: Product[] = [
     amount: 1300,
     discount: 0,
     price: 200,
+    quantity: 1000,
     categoryId: '5',
   },
   {
@@ -153,6 +166,7 @@ export const products: Product[] = [
     amount: 1400,
     discount: 0,
     price: 150,
+    quantity: 1000,
     categoryId: '5',
   },
 ];

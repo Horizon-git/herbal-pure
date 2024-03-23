@@ -152,7 +152,7 @@ export const StorePage = () => {
   ];
 
   return (
-    <main className="store">
+    <div className="store">
       <div className="store__container">
         {categoryId ? <Breadcrumbs links={linksObj2} /> : <Breadcrumbs links={linksObj1} />}
         <h1 className="store__title">{categoryId ? findCategoryById(categoryId, categories)?.name :'All products'}</h1>
@@ -202,6 +202,6 @@ export const StorePage = () => {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
