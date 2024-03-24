@@ -1,19 +1,21 @@
 /* eslint-disable max-len */
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
 import { HomePage } from './pages/HomePage/HomePage';
 import { StorePage } from './pages/StorePage/StorePage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage';
 import { CartPage } from './pages/CartPage/CartPage';
+import { RegistrationPage } from './pages/RegistrationPage/RegistrationPage';
+import { LoginPage } from './pages/LoginPage/LoginPage';
 
 export const Root = () => (
-  <HashRouter>
+  <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
         <Route index element={<HomePage />} />
-        {/* <Route path="sign-up" element={<RegistrationPage />} />
+        <Route path="sign-up" element={<RegistrationPage />} />
 
-        <Route path="login" element={<LoginPage />} /> */}
+        <Route path="login" element={<LoginPage />} />
         <Route path="/store">
           <Route index element={<StorePage />} />
           <Route path=":categoryId" element={<StorePage />} />
@@ -25,5 +27,5 @@ export const Root = () => (
         <Route path="/cart" element={<CartPage />} />
       </Route>
     </Routes>
-  </HashRouter>
+  </BrowserRouter>
 );
