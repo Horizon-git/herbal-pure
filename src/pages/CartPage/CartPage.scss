@@ -30,6 +30,10 @@
     vertical-align: middle;
     min-width: 50px;
     line-height: 21px;
+
+    &--small {
+      width: 120px;
+    }
   }
 
   &__image {
@@ -45,6 +49,10 @@
     &:focus {
       outline: none;
     }
+  }
+
+  &__product-name {
+    @include hover(color, $main-color);
   }
 
   &__summary {
@@ -113,9 +121,23 @@
   justify-content: center;
   align-items: center;
 
+
   &__container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__link {
+    font-size: 18px;
+    color: $main-color;
+
+    &:hover {
+      color: $main-color;
+      text-decoration: underline;
+    }
   }
 }
 

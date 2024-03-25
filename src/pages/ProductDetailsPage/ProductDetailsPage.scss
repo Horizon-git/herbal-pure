@@ -74,6 +74,45 @@
     padding-top: 8px;
   }
 
+  &__capsules-container {
+    margin-block: 5px;
+  }
+
+  &__capsules {
+    display: flex;
+    margin-top: 15px;
+    gap: 20px;
+  }
+
+  &__capsule-count {
+    border: 1px solid $light-gray;
+    border-radius: 10px;
+    padding: 10px;
+    transition: all .3s;
+
+    &:hover {
+      border: 1px solid $main-color;
+    }
+
+    &--active {
+      border: 1px solid $main-color;
+    }
+  }
+
+  &__price {
+    display: flex;
+    font-family: "Montserrat", sans-serif;
+    gap: 8px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  &__price-discount {
+    text-decoration-line: line-through;
+    color: #777777;
+  }
+
   .add-to-cart--details {
     margin-top: 15px;
     width: 30%;

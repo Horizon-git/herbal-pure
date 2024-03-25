@@ -1,12 +1,16 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-console */
-import { ChangeEvent, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
+// eslint-disable-next-line max-len
+import { CartItemComponent } from '../../components/CartItemComponent/CartItemComponent';
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 import './CartPage.scss';
-import { changeQuantity, removeCartItem } from '../../features/cartSlice';
-import { CartItem } from '../../types/CartItem';
+import {
+  getDiscountedPrice,
+  roundToPointTwo,
+} from '../../helpers/getDiscontedPrice';
 
 const linksObj = [
   { to: '/', label: 'Home' },
@@ -15,12 +19,13 @@ const linksObj = [
 
 export function CartPage() {
   const cart = useAppSelector(state => state.cart.cart);
-  const dispatch = useAppDispatch();
 
   const totalPrice = useMemo(
     () =>
       cart.reduce((sum, obj) => {
-        return obj.price * obj.cart_quantity + sum;
+        return (
+          getDiscountedPrice(obj.price * obj.cart_quantity, obj.discount) + sum
+        );
       }, 0),
     [cart],
   );
@@ -32,32 +37,6 @@ export function CartPage() {
       }, 0),
     [cart],
   );
-
-  const onChangeQuantity = (
-    item: CartItem,
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
-    let newCartQuantity = +e.target.value;
-
-    if (newCartQuantity > item.total_amount) {
-      newCartQuantity = item.total_amount;
-    }
-
-    if (newCartQuantity < 1) {
-      newCartQuantity = 1;
-    }
-
-    const newItem = {
-      ...item,
-      cartQuantity: newCartQuantity,
-    };
-
-    dispatch(changeQuantity(newItem));
-  };
-
-  const removeFromCart = (item: CartItem) => {
-    dispatch(removeCartItem(item));
-  };
 
   if (!cart.length) {
     return (
@@ -89,40 +68,7 @@ export function CartPage() {
           </thead>
           <tbody>
             {cart.map(item => (
-              <tr className="cart__table-row" key={item.id}>
-                <td className="cart__table-col">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="cart__image"
-                  />
-                </td>
-                <td className="cart__table-col">
-                  <p className="cart__product-name">{`${item.company}, ${item.name}, ${`${item?.capsules_amount} capsules` || ''}`}</p>
-                </td>
-                <td className="cart__table-col">
-                  <input
-                    type="number"
-                    value={item.cart_quantity}
-                    min={1}
-                    max={item.total_amount}
-                    className="cart__quantity"
-                    onChange={event => onChangeQuantity(item, event)}
-                  />
-                </td>
-                <td className="cart__table-col">
-                  {`$${item.price * item.cart_quantity}`}
-                </td>
-                <td className="cart__table-col">
-                  <button
-                    type="button"
-                    className="cart__delete"
-                    onClick={() => removeFromCart(item)}
-                  >
-                    <span className="icon icon--close" />
-                  </button>
-                </td>
-              </tr>
+              <CartItemComponent key={item.id} item={item} />
             ))}
           </tbody>
         </table>
@@ -130,7 +76,7 @@ export function CartPage() {
           <div className="cart__summary-top">
             <h2 className="cart__summary-title">Cart total</h2>
             <div className="cart__summary-total">
-              <p className="cart__summary-price">{`$${totalPrice}`}</p>
+              <p className="cart__summary-price">{`$${roundToPointTwo(totalPrice)}`}</p>
               <p className="cart__summary-qty">{`Total for ${totalCount} items`}</p>
             </div>
           </div>

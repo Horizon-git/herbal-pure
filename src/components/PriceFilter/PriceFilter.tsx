@@ -23,8 +23,8 @@ export const PriceFilter: React.FC<PriceFilterProps> = ({
     const newMinPrice = searchParams.get('minPrice') || initialMinPrice.toString();
     const newMaxPrice = searchParams.get('maxPrice') || initialMaxPrice.toString();
 
-    setMinPrice(parseInt(newMinPrice, 10));
-    setMaxPrice(parseInt(newMaxPrice, 10));
+    setMinPrice(+newMinPrice);
+    setMaxPrice(+newMaxPrice);
   }, [initialMinPrice, initialMaxPrice, searchParams]);
 
   const updateUrl = () => {

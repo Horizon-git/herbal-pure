@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable prettier/prettier */
 /* eslint-disable max-len */
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect, useMemo } from 'react';
 import { ProductSlider } from '../../components/ProductSlider/ProductSlider';
@@ -11,14 +12,27 @@ import { addCartItem, removeCartItem } from '../../features/cartSlice';
 import { fetchProductDetails } from '../../features/productDetailsSlice';
 import { getSuggestedProducts } from '../../helpers/getSuggestions';
 import { Loader } from '../../components/Loader/Loader';
+import { fetchProducts } from '../../features/productsSlice';
+import { Notification } from '../../components/Notification/Notification';
+import { generateSlug } from '../../helpers/generateSlug';
+import { getDiscountedPrice } from '../../helpers/getDiscontedPrice';
 
 
 
 export const ProductDetailsPage = () => {
   const cart = useAppSelector(state => state.cart.cart);
-  const { productDetails, loading } = useAppSelector(state => state.productDetails);
-  const { products } = useAppSelector(state => state.products);
+  const { productDetails, loading: loadingDetails, hasError: hasDetailsError } = useAppSelector(state => state.productDetails);
+  const { products, hasError, loading} = useAppSelector(state => state.products);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const productCapsules = products.filter(product => product.company === productDetails?.company && product.name === productDetails?.name)
+    .map(item => item.capsules_amount);
+
+  console.log(productCapsules);
 
   const { productId = '' } = useParams();
 
@@ -28,15 +42,10 @@ export const ProductDetailsPage = () => {
     { to: `/product/${productDetails?.slug}`, label: productDetails?.name },
   ];
 
+
   useEffect(() => {
     dispatch(fetchProductDetails(productId));
   }, [dispatch, productId]);
-
-  const discountPrice = useMemo(() => {
-    return productDetails?.price
-      ? productDetails.price - (productDetails.price * (productDetails.discount || 0)) / 100
-      : 0;
-  }, [productDetails]);
 
   const isCart = useMemo(() => {
     return cart.some(item => item.id === productDetails?.id);
@@ -49,7 +58,7 @@ export const ProductDetailsPage = () => {
         name: productDetails.name,
         image: productDetails.image,
         company: productDetails.company,
-        price: discountPrice,
+        price: productDetails.price,
         discount: productDetails.discount,
         promoted: productDetails.promoted,
         capsules_amount: productDetails.capsules_amount,
@@ -66,8 +75,14 @@ export const ProductDetailsPage = () => {
     }
   };
 
-  if (loading) {
+  if (loading || loadingDetails) {
     return <Loader />;
+  }
+
+  if (hasError || hasDetailsError) {
+    return <div className="details__container">
+      <Notification message='Server error, please try to reload page' />
+    </div>;
   }
 
   return (
@@ -83,7 +98,34 @@ export const ProductDetailsPage = () => {
             />
             <div className="details__right">
               <h2 className="details__name">{`${productDetails.company}, ${productDetails.name}, ${`${productDetails.capsules_amount} capsules` || ''}`}</h2>
-              <h3 className="details__price">{`$${discountPrice}`}</h3>
+              <div className="details__price">
+                {productDetails.discount === 0 ? (
+                  <p className="details__price-regular">{`$${productDetails.price}`}</p>
+                ) : (
+                  <>
+                    <p className="details__price-regular">
+                      {`$${getDiscountedPrice(productDetails.price, productDetails.discount)}`}
+                    </p>
+                    <p className="details__price-discount">{`$${productDetails.price}`}</p>
+                  </>
+                )}
+              </div>
+              <div className="details__capsules-container">
+                <h3 className="details__capsules-title">{`Package quantity: ${productDetails.capsules_amount} Count`}</h3>
+                {productDetails.capsules_amount && (
+                  <div className="details__capsules">
+                    {productCapsules.map(capsuleCount => (
+                      <Link key={capsuleCount} to={`/product/${generateSlug(productDetails.name, productDetails.company, capsuleCount, productDetails.category)}`}>
+                        <div className={classNames('details__capsule-count', {
+                          'details__capsule-count--active': capsuleCount ===  productDetails.capsules_amount
+                        })}>
+                          <span>{`${capsuleCount} count`}</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
               <p className="details__description">{`${productDetails.description}`}</p>
               <p className="details__weight">{`Weight: ${productDetails.serving_size}`}</p>
               <button
@@ -115,7 +157,7 @@ export const ProductDetailsPage = () => {
             <h3 className="details__title">Suggested use</h3>
             <p className="details__text">{productDetails.instruction}</p>
           </div>
-          <ProductSlider title="Recommended products" products={getSuggestedProducts(products, +productId, 8)} />
+          <ProductSlider title="Recommended products" products={getSuggestedProducts(products, productDetails.id, 8)} />
         </div>
       )}
     </div>

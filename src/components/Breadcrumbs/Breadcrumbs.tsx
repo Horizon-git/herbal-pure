@@ -11,7 +11,7 @@ export const Breadcrumbs: React.FC<Props> = ({ links }) => {
   return (
     <div className="breadcrumbs">
       {links.map(({ label, to }, index) => (
-        <div className="breadcrumbs__part" key={label}>
+        <div key={to} className="breadcrumbs__part">
           {index > 0 && <span className="breadcrumbs__separator">/</span>}
           <Link
             to={to}

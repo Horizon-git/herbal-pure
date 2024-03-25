@@ -1,22 +1,23 @@
+/* eslint-disable no-restricted-syntax */
 import { Category } from '../types/Category';
 
 export function findCategoryById(
-  id: string,
+  id: number,
   categories: Category[],
 ): Category | undefined {
-  const foundCategory = categories.find(category => {
+  for (const category of categories) {
     if (category.id === id) {
-      return true;
+      return category;
     }
 
-    if (category.subcategories) {
+    if (category.subcategories.length > 0) {
       const foundSubcategory = findCategoryById(id, category.subcategories);
 
-      return !!foundSubcategory;
+      if (foundSubcategory) {
+        return foundSubcategory;
+      }
     }
+  }
 
-    return false;
-  });
-
-  return foundCategory;
+  return undefined;
 }

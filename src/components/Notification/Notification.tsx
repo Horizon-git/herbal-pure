@@ -8,8 +8,8 @@ type Props = {
 
 export const Notification: FC<Props> = ({ message }) => {
   return (
-    <div className="notification">
-      <h2 className="notification__message">{message}</h2>
+    <div className="notification-herbal">
+      <h2 className="notification-herbal__message">{message}</h2>
     </div>
   );
 };

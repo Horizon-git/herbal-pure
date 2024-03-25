@@ -12,10 +12,22 @@ interface Props {
 }
 
 export const CategoryWidget: React.FC<Props> = ({ categories }) => {
-  const [expandedIds, setExpandedIds] = useState<string[]>([]);
+  const [expandedIds, setExpandedIds] = useState<number[]>([]);
   const { categoryId = '' } = useParams();
 
-  const handleCategoryClick = (clickId: string) => {
+  const sortedCategories = [...categories].sort((a, b) => {
+    if (a.subcategories.length > 0 && b.subcategories.length === 0) {
+      return -1; 
+    }
+
+    if (a.subcategories.length === 0 && b.subcategories.length > 0) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  const handleCategoryClick = (clickId: number) => {
     if (expandedIds.includes(clickId)) {
       setExpandedIds(expandedIds.filter(id => id !== clickId));
     } else {
@@ -27,12 +39,12 @@ export const CategoryWidget: React.FC<Props> = ({ categories }) => {
     <div className="widget">
       <h1 className="widget__title">Categories</h1>
       <ul className="widget__category-list">
-        {categories.map(category => (
-          <li key={category.id} className={`widget__category-item ${category.subcategories ? 'widget__category-item--has-subcategories' : ''}`}>
+        {sortedCategories.map(category => (
+          <li key={category.id} className={`widget__category-item ${category.subcategories.length > 0 ? 'widget__category-item--has-subcategories' : ''}`}>
             <Link
               to={`/store/${category.id}`}
               className={classNames('widget__category-item__link',
-                {'widget__category-item__link--active': category.id === categoryId})}
+                {'widget__category-item__link--active': category.id === +categoryId})}
               onClick={e => {
                 if (
                   category.subcategories && category.subcategories.length > 0
@@ -57,7 +69,7 @@ export const CategoryWidget: React.FC<Props> = ({ categories }) => {
                     <ul className="widget__category-item__subcategories">
                       {category.subcategories.map(subcategory => (
                         <li className="widget__category-item" key={subcategory.id}>
-                          <Link to={`/store/${subcategory.id}`} className={classNames('widget__category-item__link', {'widget__category-item__link--active': subcategory.id === categoryId})}>
+                          <Link to={`/store/${subcategory.id}`} className={classNames('widget__category-item__link', {'widget__category-item__link--active': subcategory.id === +categoryId})}>
                             {subcategory.name}
                           </Link>
                         </li>

@@ -19,7 +19,7 @@ import { fetchCategories } from '../../features/categoriesSlice';
 import { findCategoryById } from '../../helpers/getCategoryName';
 import { PriceFilter } from '../../components/PriceFilter/PriceFilter';
 import { Loader } from '../../components/Loader/Loader';
-
+import { Notification } from '../../components/Notification/Notification';
 
 const sortOptions = [
   {
@@ -44,8 +44,8 @@ const itemsPerPageOptions = [
 
 export const StorePage = () => {
   const dispatch = useAppDispatch();
-  const { products, loading } = useAppSelector(state => state.products);
-  const { categories, loading: categoryLoading } = useAppSelector((state) => state.categories);
+  const { products, loading, hasError } = useAppSelector(state => state.products);
+  const { categories, loading: categoryLoading, hasError: categoryHasError } = useAppSelector((state) => state.categories);
 
   const { categoryId = '' } = useParams();
 
@@ -156,14 +156,30 @@ export const StorePage = () => {
   const linksObj2 = [
     { to: '/', label: 'Home' },
     { to: '/store', label: 'Store' },
-    { to: `/store/${categoryId}`, label: findCategoryById(categoryId, categories)?.name },
+    { to: `/store/${categoryId}`, label: findCategoryById(+categoryId, categories)?.name },
   ];
+
+  if (loading || categoryLoading) {
+    return (
+      <div className="store__container">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (hasError || categoryHasError) {
+    return (
+      <div className="store__container">
+        <Notification message="Server error, please try to reload page" />
+      </div>
+    );
+  }
 
   return (
     <div className="store">
       <div className="store__container">
         {categoryId ? <Breadcrumbs links={linksObj2} /> : <Breadcrumbs links={linksObj1} />}
-        <h1 className="store__title">{categoryId ? findCategoryById(categoryId, categories)?.name :'All products'}</h1>
+        <h1 className="store__title">{categoryId ? findCategoryById(+categoryId, categories)?.name :'All products'}</h1>
         <div className="store__content">
           <aside className="store__sidebar">
             <Search />

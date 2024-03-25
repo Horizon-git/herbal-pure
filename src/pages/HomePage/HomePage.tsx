@@ -8,14 +8,29 @@ import { fetchProducts } from '../../features/productsSlice';
 import { Loader } from '../../components/Loader/Loader';
 import { getHotPriceProducts } from '../../helpers/getHotPriceProducts';
 import { getFeaturedProducts } from '../../helpers/getFeaturedProducts';
+import { Notification } from '../../components/Notification/Notification';
 
 export const HomePage = () => {
   const dispatch = useAppDispatch();
-  const { products, loading } = useAppSelector(state => state.products);
+  const { products, loading, hasError } = useAppSelector(
+    state => state.products,
+  );
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (hasError) {
+    return (
+      <div className="details__container">
+        <Notification message="Server error, please try to reload page" />
+      </div>
+    );
+  }
 
   return (
     <div className="home">
