@@ -20,7 +20,7 @@ export function CartPage() {
   const totalPrice = useMemo(
     () =>
       cart.reduce((sum, obj) => {
-        return obj.price * obj.cartQuantity + sum;
+        return obj.price * obj.cart_quantity + sum;
       }, 0),
     [cart],
   );
@@ -28,7 +28,7 @@ export function CartPage() {
   const totalCount = useMemo(
     () =>
       cart.reduce((sum, obj) => {
-        return obj.cartQuantity + sum;
+        return obj.cart_quantity + sum;
       }, 0),
     [cart],
   );
@@ -39,8 +39,8 @@ export function CartPage() {
   ) => {
     let newCartQuantity = +e.target.value;
 
-    if (newCartQuantity > item.quantity) {
-      newCartQuantity = item.quantity;
+    if (newCartQuantity > item.total_amount) {
+      newCartQuantity = item.total_amount;
     }
 
     if (newCartQuantity < 1) {
@@ -92,26 +92,26 @@ export function CartPage() {
               <tr className="cart__table-row" key={item.id}>
                 <td className="cart__table-col">
                   <img
-                    src={item.imageUrl}
+                    src={item.image}
                     alt={item.name}
                     className="cart__image"
                   />
                 </td>
                 <td className="cart__table-col">
-                  <p className="cart__product-name">{`${item.supplier}, ${item.name}, ${`${item?.amount} capsules` || ''}, ${item.weight}g`}</p>
+                  <p className="cart__product-name">{`${item.company}, ${item.name}, ${`${item?.capsules_amount} capsules` || ''}`}</p>
                 </td>
                 <td className="cart__table-col">
                   <input
                     type="number"
-                    value={item.cartQuantity}
+                    value={item.cart_quantity}
                     min={1}
-                    max={item.quantity}
+                    max={item.total_amount}
                     className="cart__quantity"
                     onChange={event => onChangeQuantity(item, event)}
                   />
                 </td>
                 <td className="cart__table-col">
-                  {`$${item.price * item.cartQuantity}`}
+                  {`$${item.price * item.cart_quantity}`}
                 </td>
                 <td className="cart__table-col">
                   <button

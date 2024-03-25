@@ -1,7 +1,6 @@
 @import "./utils";
 
 .icon {
-  display: block;
   width: 20px;
   height: 20px;
   background-size: cover;
@@ -58,6 +57,7 @@
   }
 
   &--close {
+    display: block;
     background-image: url(../images/icons/close.svg);
   }
 }

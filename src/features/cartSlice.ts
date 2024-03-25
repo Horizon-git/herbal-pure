@@ -4,28 +4,23 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { CartItem } from '../types/CartItem';
 
-const cartProducts = JSON.parse(localStorage.getItem('cart') || '[]');
+const cartProducts = JSON.parse(localStorage.getItem('cartHerbalPure') || '[]');
 
 type CartState = {
   cart: CartItem[];
-  notification: boolean;
 };
 
 const initialState: CartState = {
   cart: cartProducts,
-  notification: false,
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    showNotification: (state, action: PayloadAction<boolean>) => {
-      state.notification = action.payload;
-    },
     addCartItem: (state, action: PayloadAction<CartItem>) => {
       localStorage.setItem(
-        'cart',
+        'cartHerbalPure',
         JSON.stringify([...state.cart, action.payload]),
       );
       state.cart.push(action.payload);
@@ -35,7 +30,7 @@ const cartSlice = createSlice({
 
       const filteredList = state.cart.filter(item => item !== findItem);
 
-      localStorage.setItem('cart', JSON.stringify(filteredList));
+      localStorage.setItem('cartHerbalPure', JSON.stringify(filteredList));
       state.cart = filteredList;
     },
     changeQuantity(state, action: PayloadAction<CartItem>) {
@@ -44,8 +39,8 @@ const cartSlice = createSlice({
       console.log(findItem);
 
       if (findItem) {
-        findItem.cartQuantity = action.payload.cartQuantity;
-        localStorage.setItem('cart', JSON.stringify([...state.cart]));
+        findItem.cart_quantity = action.payload.cart_quantity;
+        localStorage.setItem('cartHerbalPure', JSON.stringify([...state.cart]));
       }
     },
   },
@@ -55,7 +50,6 @@ export const {
   addCartItem,
   removeCartItem,
   changeQuantity,
-  showNotification,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

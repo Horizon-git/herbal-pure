@@ -1,0 +1,59 @@
+
+@import './utils/vars';
+
+.form {
+  padding: 30px;
+  border-radius: 30px;
+
+  &__input {
+    border-radius: 20px;
+  }
+
+  &__center {
+    text-align: center;
+  }
+
+  &__button {
+    font-family: "Montserrat", sans-serif;
+    margin-top: 10px;
+    width: 150px;
+    background-color: $main-color;
+    padding-block: 11px;
+    padding-inline: 16px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 20px;
+    transition: all .3s;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba($main-color, .7);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &:hover:disabled {
+      background-color: $main-color;
+    }
+  }
+
+  &__link {
+    color: $main-color;
+
+    &:hover {
+      color: $main-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+.form-container {
+  margin-inline: auto;
+  margin-block: 100px;
+  max-width: 500px;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-len */
 import classNames from 'classnames';
 import { FC, useMemo } from 'react';
@@ -6,11 +7,8 @@ import { Product } from '../../types/Product';
 
 import './ProductCard.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-  addCartItem,
-  removeCartItem,
-  showNotification,
-} from '../../features/cartSlice';
+import { addCartItem, removeCartItem } from '../../features/cartSlice';
+import { getDiscountedPrice } from '../../helpers/getDiscontedPrice';
 
 type Props = {
   product: Product;
@@ -18,36 +16,31 @@ type Props = {
 
 export const ProductCard: FC<Props> = ({ product }) => {
   const cart = useAppSelector(state => state.cart.cart);
-  // const notification = useAppSelector(state => state.cart.notification);
 
   const dispatch = useAppDispatch();
 
   const isCart = useMemo(() => {
     return cart.some(item => item.id === product.id);
-  }, [cart]);
+  }, [cart, product.id]);
 
   const addToCart = () => {
-    const item = { ...product, cartQuantity: 1 };
+    const item = { ...product, cart_quantity: 1 };
 
     if (!isCart) {
       dispatch(addCartItem(item));
-      dispatch(showNotification(true));
-      setTimeout(() => {
-        dispatch(showNotification(false));
-      }, 1000);
     } else {
       dispatch(removeCartItem(item));
     }
   };
 
   // eslint-disable-next-line prettier/prettier
-  const { imageUrl, name, price, discount, amount, supplier, weight, id } = product;
+  const { image, name, price, discount, capsules_amount, company, id, total_amount } = product;
 
   return (
     <div className="card">
       <Link to={`/product/${id}`} className="card__link">
-        <img src={`${imageUrl}`} alt={name} className="card__img" />
-        <h2 className="card__title">{`${supplier}, ${name}, ${amount || ''} capsules, ${weight}g`}</h2>
+        <img src={`${image}`} alt={name} className="card__img" />
+        <h2 className="card__title">{`${company}, ${name}, ${`${capsules_amount} capsules` || ''}`}</h2>
 
         <div className="card__price">
           {discount === 0 ? (
@@ -55,7 +48,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
           ) : (
             <>
               <p className="card__price-regular">
-                {`$${(price * ((100 - discount) / 100)).toFixed(2)}`}
+                {`$${getDiscountedPrice(price, discount)}`}
               </p>
               <p className="card__price-discount">{`$${price}`}</p>
             </>
@@ -69,14 +62,14 @@ export const ProductCard: FC<Props> = ({ product }) => {
           data-cy="addToCart"
           className={classNames('add-to-cart', {
             'add-to-cart--active': isCart,
-            'add-to-cart--disabled': product.quantity <= 0,
+            'add-to-cart--disabled': total_amount <= 0,
           })}
-          disabled={product.quantity <= 0}
+          disabled={total_amount <= 0}
           onClick={addToCart}
         >
-          {product.quantity <= 0 && 'Out of Stock'}
-          {!isCart && product.quantity > 0 && 'Add to cart'}
-          {isCart && product.quantity > 0 && 'Added to cart'}
+          {total_amount <= 0 && 'Out of Stock'}
+          {!isCart && total_amount > 0 && 'Add to cart'}
+          {isCart && total_amount > 0 && 'Added to cart'}
         </button>
       </div>
     </div>

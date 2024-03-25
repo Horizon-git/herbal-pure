@@ -1,15 +1,17 @@
 export type ProductDetails = {
   id: number;
-  imageUrl: string;
+  image: string;
   name: string;
-  supplier: string;
+  company: string;
   price: number;
   discount: number;
-  amount: number | null;
-  weight: number;
-  categoryId: string;
+  capsules_amount: number | null;
+  serving_size: number;
   description: string;
   features: string[];
-  quantity: number;
+  total_amount: number;
   instruction: string;
+  promoted: boolean;
+  category: string;
+  slug: string;
 };

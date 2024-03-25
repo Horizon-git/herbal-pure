@@ -1,13 +1,13 @@
 export interface CartItem {
   id: number;
-  imageUrl: string;
   name: string;
-  supplier: string;
+  image: string;
+  company: string;
+  capsules_amount: number | null;
   price: number;
   discount: number;
-  amount: number | null;
-  weight: number;
-  quantity: number;
-  categoryId: string;
-  cartQuantity: number;
+  promoted: boolean;
+  total_amount: number;
+  slug: string;
+  cart_quantity: number;
 }

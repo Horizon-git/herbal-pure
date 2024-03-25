@@ -1,15 +1,34 @@
+import { useEffect } from 'react';
 import { Banner } from '../../components/Banner/Banner';
 import './HomePage.scss';
 import './About.scss';
-import { products } from '../../data/products';
 import { ProductSlider } from '../../components/ProductSlider/ProductSlider';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { fetchProducts } from '../../features/productsSlice';
+import { Loader } from '../../components/Loader/Loader';
+import { getHotPriceProducts } from '../../helpers/getHotPriceProducts';
+import { getFeaturedProducts } from '../../helpers/getFeaturedProducts';
 
 export const HomePage = () => {
+  const dispatch = useAppDispatch();
+  const { products, loading } = useAppSelector(state => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <div className="home">
       <Banner />
       <div className="home__container">
-        <ProductSlider title="Hot prices" products={products} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <ProductSlider
+            title="Hot prices"
+            products={getHotPriceProducts(products)}
+          />
+        )}
 
         <section className="about">
           <h1 className="about__title">About our company</h1>
@@ -41,7 +60,14 @@ export const HomePage = () => {
             />
           </div>
         </section>
-        <ProductSlider title="Featured products" products={products} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <ProductSlider
+            title="Hot prices"
+            products={getFeaturedProducts(products)}
+          />
+        )}
       </div>
     </div>
   );

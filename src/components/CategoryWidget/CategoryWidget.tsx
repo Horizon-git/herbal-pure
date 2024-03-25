@@ -5,12 +5,7 @@ import './CategoryWidget.scss';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames';
-
-interface Category {
-  id: string;
-  name: string;
-  subcategories?: Category[];
-}
+import { Category } from '../../types/Category';
 
 interface Props {
   categories: Category[];
