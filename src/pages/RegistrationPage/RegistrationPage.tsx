@@ -1,9 +1,14 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
-import './RegistrationForm.scss';
+import PhoneInputField from '../../components/PhoneInputField/PhoneInputField';
+import { authService } from '../../services/authService';
+import { Portal } from '../../components/Portal/Portal';
+import { PushNotification } from '../../components/PushNotification/PushNotification';
+import { usePageError } from '../../app/hooks';
 
 function validateEmail(value: string) {
   if (!value) {
@@ -39,34 +44,21 @@ function validateName(value: string) {
   return undefined;
 }
 
-function validatePhoneNumber(value: string) {
-  if (!value) {
-    return 'Phone number is required';
-  }
-
-  const phonePattern = /^\+?[0-9()-.\s]{10,}$/;
-
-  if (!phonePattern.test(value)) {
-    return 'Phone number is not valid';
-  }
-
-  return undefined;
-}
-
 export const RegistrationPage = () => {
-  const [registered, setRegistered] = useState(false);
+  const [phoneError, setPhoneError] = useState<string | undefined>(undefined);
+  const [error, setError] = usePageError('');
+  const navigate = useNavigate();
 
-  if (registered) {
-    return (
-      <section className="">
-        <h1 className="title">Check your email</h1>
-        <p>We have sent you an email with the activation link</p>
-      </section>
-    );
-  }
+  const onPhoneError = (err: string | undefined) => {
+    setPhoneError(err);
+  };
 
   return (
     <div className="form-container">
+      <Portal>
+        <PushNotification message={`${error}`} />
+      </Portal>
+
       <Formik
         initialValues={{
           email: '',
@@ -77,11 +69,33 @@ export const RegistrationPage = () => {
         validateOnMount
         onSubmit={({ name, email, phone, password }, formikHelpers) => {
           formikHelpers.setSubmitting(true);
-          setRegistered(true);
+          console.log(error);
+          // formikHelpers.resetForm();
 
-          console.log(name, email, password, phone);
+          authService
+            .register({ name, email, password, phone })
+            .then(() => {
+              navigate('/login');
+            })
+            .catch(err => {
+              if (err.message) {
+                setError(`${err.message}: Please try again later.`);
+              }
 
-          // TODO: send data to server
+              if (!err.response?.data) {
+                return;
+              }
+
+              const { errors } = err.response.data;
+
+              formikHelpers.setFieldError('email', errors?.email);
+              formikHelpers.setFieldError('password', errors?.password);
+              formikHelpers.setFieldError('name', errors?.name);
+              formikHelpers.setFieldError('phone', errors?.phone);
+            })
+            .finally(() => {
+              formikHelpers.setSubmitting(false);
+            });
         }}
       >
         {({ touched, errors, isSubmitting }) => (
@@ -158,30 +172,13 @@ export const RegistrationPage = () => {
 
               <div className="control has-icons-left has-icons-right">
                 <Field
-                  validate={validatePhoneNumber}
+                  type="tel"
+                  changePhoneError={onPhoneError}
+                  phoneError={phoneError}
                   name="phone"
-                  type="phone"
-                  id="phone"
-                  placeholder="+380 95 093 0222"
-                  className={cn('input form__input', {
-                    'is-danger': touched.phone && errors.phone,
-                  })}
+                  component={PhoneInputField}
                 />
-
-                <span className="icon is-small is-left">
-                  <i className="fa fa-phone" />
-                </span>
-
-                {touched.phone && errors.phone && (
-                  <span className="icon is-small is-right has-text-danger">
-                    <i className="fas fa-exclamation-triangle" />
-                  </span>
-                )}
               </div>
-
-              {touched.phone && errors.phone && (
-                <p className="help is-danger">{errors.phone}</p>
-              )}
             </div>
 
             <div className="field">
@@ -222,11 +219,11 @@ export const RegistrationPage = () => {
               <button
                 type="submit"
                 className={cn('form__button', {
-                  'is-loading': isSubmitting,
+                  'button is-loading': isSubmitting,
                 })}
                 disabled={
                   // eslint-disable-next-line max-len, prettier/prettier
-                  isSubmitting || !!errors.email || !!errors.password || !!errors.name || !!errors.phone
+                  isSubmitting || !!errors.email || !!errors.password || !!errors.name || !!phoneError
                 }
               >
                 Sign up

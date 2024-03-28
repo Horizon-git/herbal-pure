@@ -1,9 +1,10 @@
 import classNames from 'classnames';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import './Nav.scss';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getTotalCount } from '../../helpers/getTotalCount';
+import { logout } from '../../features/authSlice';
 
 export const headerLinks = [
   {
@@ -34,13 +35,19 @@ const getIconClassCart = ({ isActive }: { isActive: boolean }) =>
     'icon-cart--active': isActive,
   });
 
-const getIconClassLogin = ({ isActive }: { isActive: boolean }) =>
-  classNames('icon icon--login', {
-    'icon-login--active': isActive,
-  });
-
 export const Header = () => {
   const cart = useAppSelector(state => state.cart.cart);
+  const user = useAppSelector(state => state.auth.user);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const toLogin = () => {
+    navigate('/login');
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <header className="header">
@@ -60,12 +67,29 @@ export const Header = () => {
           </ul>
         </nav>
         <div className="header__icons">
+          {!user && (
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => toLogin()}
+            >
+              Login
+            </button>
+          )}
+          {user && (
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => logoutHandler()}
+            >
+              Logout
+            </button>
+          )}
           <NavLink className={getIconClassCart} to="/cart">
             {cart.length > 0 && (
               <span className="header__counter">{getTotalCount(cart)}</span>
             )}
           </NavLink>
-          <NavLink className={getIconClassLogin} to="/login" />
         </div>
       </div>
     </header>

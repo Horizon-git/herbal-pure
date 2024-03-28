@@ -1,4 +1,4 @@
-import { apiClient } from '../http';
+import { apiClient } from '../api/apiClient';
 import { Product } from '../types/Product';
 import { ProductDetails } from '../types/ProductDetails';
 

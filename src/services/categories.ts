@@ -1,4 +1,4 @@
-import { apiClient } from '../http';
+import { apiClient } from '../api/apiClient';
 import { Category } from '../types/Category';
 
 export const getCategories = () => {

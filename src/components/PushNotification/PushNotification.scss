@@ -1,0 +1,26 @@
+@import '../../styles//utils';
+
+.push-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 43%;
+  background-color: red;
+  color: #fff;
+  transform: translateY(150%);
+  opacity: 0;
+  padding: 10px 20px;
+  border-radius: 35px;
+  transition: all 0.3s ease;
+  width: 250px;
+  line-height: 150%;
+
+  &--visible {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+
+  &__message {
+    font-size: 16px;
+    text-align: center;
+  }
+}

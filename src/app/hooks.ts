@@ -6,7 +6,9 @@ import type { RootState, AppDispatch } from './store';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const usePageError = (initialError: string) => {
+export const usePageError = (
+  initialError: string,
+): [string, React.Dispatch<React.SetStateAction<string>>] => {
   const [error, setError] = useState<string>(initialError);
 
   useEffect(() => {

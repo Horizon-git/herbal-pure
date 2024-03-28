@@ -1,4 +1,4 @@
-export function getNumbers(from: number, to: number): number[] {
+export const getNumbers = (from: number, to: number): number[] => {
   const numbers = [];
 
   for (let n = from; n <= to; n += 1) {
@@ -6,4 +6,4 @@ export function getNumbers(from: number, to: number): number[] {
   }
 
   return numbers;
-}
+};

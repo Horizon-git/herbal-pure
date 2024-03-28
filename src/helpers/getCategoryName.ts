@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-syntax */
 import { Category } from '../types/Category';
 
-export function findCategoryById(
+export const findCategoryById = (
   id: number,
   categories: Category[],
-): Category | undefined {
+): Category | undefined => {
   for (const category of categories) {
     if (category.id === id) {
       return category;
@@ -20,4 +20,4 @@ export function findCategoryById(
   }
 
   return undefined;
-}
+};

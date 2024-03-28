@@ -54,6 +54,10 @@
 
 .form-container {
   margin-inline: auto;
-  margin-block: 100px;
+  padding-block: 140px;
   max-width: 500px;
+}
+
+.button[disabled] {
+  background-color: $main-color;
 }

@@ -41,3 +41,19 @@
   }
 }
 
+.login-button {
+  background-color: $main-color;
+  padding: 9px 16px;
+  color: #fff;
+  border: none;
+  transition: all .3s;
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #fff;
+    color: $main-color;
+    cursor: pointer;
+    border: 1px solid #363636;
+  }
+}

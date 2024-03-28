@@ -1,8 +1,13 @@
 /* eslint-disable no-console */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import '../../styles/form.scss';
+import { loginAsync, setUser } from '../../features/authSlice';
+import { useAppDispatch, usePageError } from '../../app/hooks';
+import { Portal } from '../../components/Portal/Portal';
+// eslint-disable-next-line max-len
+import { PushNotification } from '../../components/PushNotification/PushNotification';
 
 function validateEmail(value: string) {
   if (!value) {
@@ -31,18 +36,37 @@ function validatePassword(value: string) {
 }
 
 export const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = usePageError('');
+
+  console.log(error);
+
   return (
     <div className="form-container">
+      <Portal>
+        <PushNotification message={`${error}`} />
+      </Portal>
       <Formik
         initialValues={{
           email: '',
           password: '',
         }}
         validateOnMount
-        onSubmit={({ email, password }) => {
-          console.log(email, password);
-
-          // TODO: send data to server
+        onSubmit={({ email, password }, formikHelpers) => {
+          formikHelpers.setSubmitting(true);
+          loginAsync({ email, password })
+            .then(() => {
+              navigate('/');
+              dispatch(setUser(true));
+            })
+            .catch(err => {
+              setError(`${err.message}: Please try again.`);
+              dispatch(setUser(false));
+            })
+            .finally(() => {
+              formikHelpers.setSubmitting(false);
+            });
         }}
       >
         {({ touched, errors, isSubmitting }) => (
@@ -117,7 +141,7 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 className={cn('form__button', {
-                  'is-loading': isSubmitting,
+                  'button is-loading': isSubmitting,
                 })}
                 disabled={
                   // eslint-disable-next-line max-len, prettier/prettier
