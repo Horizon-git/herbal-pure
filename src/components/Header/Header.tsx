@@ -37,7 +37,7 @@ const getIconClassCart = ({ isActive }: { isActive: boolean }) =>
 
 export const Header = () => {
   const cart = useAppSelector(state => state.cart.cart);
-  const user = useAppSelector(state => state.auth.user);
+  const { user, isChecked } = useAppSelector(state => state.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -67,7 +67,7 @@ export const Header = () => {
           </ul>
         </nav>
         <div className="header__icons">
-          {!user && (
+          {!user && isChecked && (
             <button
               type="button"
               className="login-button"
@@ -76,7 +76,7 @@ export const Header = () => {
               Login
             </button>
           )}
-          {user && (
+          {user && isChecked && (
             <button
               type="button"
               className="login-button"

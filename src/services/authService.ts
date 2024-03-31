@@ -14,6 +14,6 @@ const login = ({ email, password }: { email: string; password: string }) =>
   authClient.post<LoginResponse>('/user/token/', { email, password });
 
 const refresh = (token: string) =>
-  authClient.post('/user/token/refresh/', { refresh: token });
+  authClient.post<LoginResponse>('/user/token/refresh/', { refresh: token });
 
 export const authService = { register, login, refresh };

@@ -1,0 +1,35 @@
+@import '../../styles/utils';
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid $light-gray;
+  border-bottom: 1px solid $light-gray;
+  padding-block: 10px;
+
+  &__image {
+    width: 70px;
+    height: 70px;
+  }
+
+  &__left {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__link {
+    @include hover(color, $main-color);
+    margin-bottom: 5px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__qty, &__capsules {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}

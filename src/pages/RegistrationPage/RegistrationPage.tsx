@@ -69,8 +69,6 @@ export const RegistrationPage = () => {
         validateOnMount
         onSubmit={({ name, email, phone, password }, formikHelpers) => {
           formikHelpers.setSubmitting(true);
-          console.log(error);
-          // formikHelpers.resetForm();
 
           authService
             .register({ name, email, password, phone })

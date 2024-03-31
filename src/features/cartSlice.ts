@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
@@ -36,12 +35,14 @@ const cartSlice = createSlice({
     changeQuantity(state, action: PayloadAction<CartItem>) {
       const findItem = state.cart.find(item => item.id === action.payload.id);
 
-      console.log(findItem);
-
       if (findItem) {
         findItem.cart_quantity = action.payload.cart_quantity;
         localStorage.setItem('cartHerbalPure', JSON.stringify([...state.cart]));
       }
+    },
+    clearCart: (state) => {
+      state.cart = [];
+      localStorage.removeItem('cartHerbalPure');
     },
   },
 });
@@ -50,6 +51,7 @@ export const {
   addCartItem,
   removeCartItem,
   changeQuantity,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

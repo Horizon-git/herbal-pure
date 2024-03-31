@@ -1,9 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-console */
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
-// eslint-disable-next-line max-len
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector, usePageError } from '../../app/hooks';
 import { CartItemComponent } from '../../components/CartItemComponent/CartItemComponent';
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 import './CartPage.scss';
@@ -11,6 +11,11 @@ import {
   getDiscountedPrice,
   roundToPointTwo,
 } from '../../helpers/getDiscontedPrice';
+import { orderProducts } from '../../services/orders';
+import { Order } from '../../types/Order';
+import { Portal } from '../../components/Portal/Portal';
+import { PushNotification } from '../../components/PushNotification/PushNotification';
+import { clearCart } from '../../features/cartSlice';
 
 const linksObj = [
   { to: '/', label: 'Home' },
@@ -19,6 +24,11 @@ const linksObj = [
 
 export function CartPage() {
   const cart = useAppSelector(state => state.cart.cart);
+  const user = useAppSelector(state => state.auth.user);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [error, setError] = usePageError('');
 
   const totalPrice = useMemo(
     () =>
@@ -38,6 +48,41 @@ export function CartPage() {
     [cart],
   );
 
+  const handleCheckout = () => {
+    if (cart.length) {
+      const cartProducts = cart.map(item => ({
+        product: item.id,
+        quantity: item.cart_quantity,
+      }));
+
+      const orderObj: Order = {
+        products: cartProducts,
+        status: 'PENDING',
+      };
+
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (!accessToken || !user) {
+        navigate('/login');
+
+        return;
+      }
+
+      orderProducts(accessToken, orderObj)
+        .then(res => {
+          navigate(`/order/${res.data.id}`);
+          dispatch(clearCart());
+        })
+        .catch(err => {
+          if (err.response.status === 401) {
+            navigate('/login');
+          } else {
+            setError(`${err.message}. Please try again later.`);
+          }
+        });
+    }
+  };
+
   if (!cart.length) {
     return (
       <div className="cart-empty">
@@ -53,6 +98,9 @@ export function CartPage() {
 
   return (
     <div className="cart">
+      <Portal>
+        <PushNotification message={`${error}`} />
+      </Portal>
       <Breadcrumbs links={linksObj} />
       <h1 className="cart__title">Cart</h1>
       <div className="cart__container">
@@ -80,7 +128,11 @@ export function CartPage() {
               <p className="cart__summary-qty">{`Total for ${totalCount} items`}</p>
             </div>
           </div>
-          <button type="button" className="cart__checkout">
+          <button
+            type="button"
+            className="cart__checkout"
+            onClick={handleCheckout}
+          >
             Checkout
           </button>
         </div>

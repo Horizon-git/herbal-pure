@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import '../../styles/form.scss';
-import { loginAsync, setUser } from '../../features/authSlice';
+import { loginAsync } from '../../features/authSlice';
 import { useAppDispatch, usePageError } from '../../app/hooks';
 import { Portal } from '../../components/Portal/Portal';
 // eslint-disable-next-line max-len
@@ -40,8 +40,6 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const [error, setError] = usePageError('');
 
-  console.log(error);
-
   return (
     <div className="form-container">
       <Portal>
@@ -55,14 +53,12 @@ export const LoginPage = () => {
         validateOnMount
         onSubmit={({ email, password }, formikHelpers) => {
           formikHelpers.setSubmitting(true);
-          loginAsync({ email, password })
+          loginAsync({ email, password }, dispatch)
             .then(() => {
               navigate('/');
-              dispatch(setUser(true));
             })
             .catch(err => {
               setError(`${err.message}: Please try again.`);
-              dispatch(setUser(false));
             })
             .finally(() => {
               formikHelpers.setSubmitting(false);

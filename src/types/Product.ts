@@ -9,4 +9,5 @@ export type Product = {
   promoted: boolean;
   total_amount: number;
   slug: string;
+  serving_size: string;
 };

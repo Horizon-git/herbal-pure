@@ -4,13 +4,14 @@ import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
 import './PhoneInputField.scss';
 import { useEffect } from 'react';
 import classNames from 'classnames';
+import { FieldAttributes } from 'formik';
 
 const PhoneInputField = ({
   field,
   form: { setFieldValue, touched },
   changePhoneError,
   phoneError,
-}: any) => {
+}: FieldAttributes<any>) => {
   const onValueChange = (phoneNumber: string) => {
     setFieldValue(field.name, phoneNumber);
   };
@@ -25,9 +26,6 @@ const PhoneInputField = ({
   useEffect(() => {
     changePhoneError(newError);
   }, [changePhoneError, newError]);
-
-  // eslint-disable-next-line no-console
-  console.log(touched, phoneError);
 
   return (
     <div className="input-field">

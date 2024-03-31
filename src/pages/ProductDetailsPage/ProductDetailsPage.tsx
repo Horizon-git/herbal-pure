@@ -32,8 +32,6 @@ export const ProductDetailsPage = () => {
   const productCapsules = products.filter(product => product.company === productDetails?.company && product.name === productDetails?.name)
     .map(item => item.capsules_amount);
 
-  console.log(productCapsules);
-
   const { productId = '' } = useParams();
 
   const linksObj = [

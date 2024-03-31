@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { authService } from '../services/authService';
 // eslint-disable-next-line import/no-cycle
@@ -24,8 +23,6 @@ export const checkAuthAsync = createAsyncThunk('auth/checkAuth', async () => {
   const response = await authService.refresh(refreshStorage);
 
   const { access, refresh, user } = response.data;
-
-  console.log(response.data);
 
   localStorage.setItem('accessToken', access);
   localStorage.setItem('refreshToken', refresh);
@@ -63,21 +60,6 @@ export const authSlice = createSlice({
 export const { logout, setUser } = authSlice.actions;
 
 export default authSlice.reducer;
-
-// export const loginAsync = async ({
-//   email,
-//   password,
-// }: {
-//   email: string;
-//   password: string;
-// }) => {
-//   const response = await authService.login({ email, password });
-
-//   const { access, refresh, user } = response.data;
-
-//   localStorage.setItem('accessToken', access);
-//   localStorage.setItem('refreshToken', refresh);
-// };
 
 export const loginAsync = async (
   {
