@@ -2,41 +2,36 @@
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { authService } from '../services/authService';
+// eslint-disable-next-line import/no-cycle
+import { AppDispatch } from '../app/store';
+import { UserData } from '../types/UserData';
 
 type AuthState = {
-  user: boolean;
+  user: UserData | null;
   isChecked: boolean;
   error: string | undefined;
 };
 
 const initialState: AuthState = {
-  user: false,
-  isChecked: true,
+  user: null,
+  isChecked: false,
   error: undefined,
 };
 
 export const checkAuthAsync = createAsyncThunk('auth/checkAuth', async () => {
   const refreshStorage = localStorage.getItem('refreshToken') || '';
 
-  const data = await authService.refresh(refreshStorage);
+  const response = await authService.refresh(refreshStorage);
 
-  const { access, refresh } = data.data;
+  const { access, refresh, user } = response.data;
+
+  console.log(response.data);
 
   localStorage.setItem('accessToken', access);
   localStorage.setItem('refreshToken', refresh);
+
+  return user;
 });
-
-// export const loginAsync = createAsyncThunk(
-//   'auth/login',
-//   async ({ email, password }: { email: string; password: string }) => {
-//     const data = await authService.login({ email, password });
-
-//     const { access, refresh } = data.data;
-
-//     localStorage.setItem('accessToken', access);
-//     localStorage.setItem('refreshToken', refresh);
-//   },
-// );
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -45,7 +40,7 @@ export const authSlice = createSlice({
     logout(state) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      state.user = false;
+      state.user = null;
     },
     setUser(state, action) {
       state.user = action.payload;
@@ -53,20 +48,15 @@ export const authSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(checkAuthAsync.fulfilled, state => {
-        state.user = true;
+      .addCase(checkAuthAsync.fulfilled, (state, action) => {
+        state.user = action.payload;
         state.error = undefined;
+        state.isChecked = true;
       })
       .addCase(checkAuthAsync.rejected, (state, action) => {
         state.error = action.error.message;
+        state.isChecked = true;
       });
-    // .addCase(loginAsync.fulfilled, state => {
-    //   state.user = true;
-    //   state.error = undefined;
-    // })
-    // .addCase(loginAsync.rejected, (state, action) => {
-    //   state.error = action.error.message;
-    // });
   },
 });
 
@@ -74,17 +64,37 @@ export const { logout, setUser } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const loginAsync = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  const data = await authService.login({ email, password });
+// export const loginAsync = async ({
+//   email,
+//   password,
+// }: {
+//   email: string;
+//   password: string;
+// }) => {
+//   const response = await authService.login({ email, password });
 
-  const { access, refresh } = data.data;
+//   const { access, refresh, user } = response.data;
+
+//   localStorage.setItem('accessToken', access);
+//   localStorage.setItem('refreshToken', refresh);
+// };
+
+export const loginAsync = async (
+  {
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  },
+  dispatch: AppDispatch,
+) => {
+  const response = await authService.login({ email, password });
+
+  const { access, refresh, user } = response.data;
 
   localStorage.setItem('accessToken', access);
   localStorage.setItem('refreshToken', refresh);
+
+  dispatch(setUser(user));
 };

@@ -7,6 +7,8 @@ import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPag
 import { CartPage } from './pages/CartPage/CartPage';
 import { RegistrationPage } from './pages/RegistrationPage/RegistrationPage';
 import { LoginPage } from './pages/LoginPage/LoginPage';
+import { OrderSuccessPage } from './pages/OrderSuccessPage/OrderSuccessPage';
+import { RequireAuth } from './components/RequireAuth/RequireAuth';
 
 export const Root = () => (
   <BrowserRouter>
@@ -20,10 +22,15 @@ export const Root = () => (
           <Route index element={<StorePage />} />
           <Route path=":categoryId" element={<StorePage />} />
         </Route>
-        <Route path="/product">
-          <Route index element={<h1>Not found</h1>} />
-          <Route path=":productId" element={<ProductDetailsPage />} />
-        </Route>
+        <Route path="/product/:productId" element={<ProductDetailsPage />} />
+        <Route
+          path="/order/:orderId"
+          element={
+            <RequireAuth>
+              <OrderSuccessPage />
+            </RequireAuth>
+          }
+        />
         <Route path="/cart" element={<CartPage />} />
       </Route>
     </Routes>
