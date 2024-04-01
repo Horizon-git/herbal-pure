@@ -9,6 +9,8 @@ import { RegistrationPage } from './pages/RegistrationPage/RegistrationPage';
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage/OrderSuccessPage';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
+import { ContactUsPage } from './pages/ContactUsPage/ContactUsPage';
+import { PageNotFoundPage } from './pages/PageNotFoundPage/PageNotFoundPage';
 
 export const Root = () => (
   <BrowserRouter>
@@ -32,6 +34,9 @@ export const Root = () => (
           }
         />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
+
+        <Route path="*" element={<PageNotFoundPage />} />
       </Route>
     </Routes>
   </BrowserRouter>

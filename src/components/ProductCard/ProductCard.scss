@@ -22,7 +22,12 @@
     border-radius: 20px; 
     color: #fff;
     text-transform: uppercase;
+
+    &--red {
+      background-color: rgba(red, $alpha: .8);
+    }
   }
+
   &__img {
     display: block;
     width: 208px;

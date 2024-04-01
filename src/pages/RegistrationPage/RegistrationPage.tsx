@@ -9,40 +9,11 @@ import { authService } from '../../services/authService';
 import { Portal } from '../../components/Portal/Portal';
 import { PushNotification } from '../../components/PushNotification/PushNotification';
 import { usePageError } from '../../app/hooks';
-
-function validateEmail(value: string) {
-  if (!value) {
-    return 'Email is required';
-  }
-
-  const emailPattern = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
-
-  if (!emailPattern.test(value)) {
-    return 'Email is not valid';
-  }
-
-  return undefined;
-}
-
-function validatePassword(value: string) {
-  if (!value) {
-    return 'Password is required';
-  }
-
-  if (value.length < 6) {
-    return 'At least 6 characters';
-  }
-
-  return undefined;
-}
-
-function validateName(value: string) {
-  if (!value) {
-    return 'Name is required';
-  }
-
-  return undefined;
-}
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from '../../helpers/validate';
 
 export const RegistrationPage = () => {
   const [phoneError, setPhoneError] = useState<string | undefined>(undefined);
@@ -79,17 +50,6 @@ export const RegistrationPage = () => {
               if (err.message) {
                 setError(`${err.message}: Please try again later.`);
               }
-
-              if (!err.response?.data) {
-                return;
-              }
-
-              const { errors } = err.response.data;
-
-              formikHelpers.setFieldError('email', errors?.email);
-              formikHelpers.setFieldError('password', errors?.password);
-              formikHelpers.setFieldError('name', errors?.name);
-              formikHelpers.setFieldError('phone', errors?.phone);
             })
             .finally(() => {
               formikHelpers.setSubmitting(false);

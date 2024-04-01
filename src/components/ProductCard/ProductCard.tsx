@@ -39,7 +39,11 @@ export const ProductCard: FC<Props> = ({ product }) => {
   return (
     <div className="card">
       {(promoted || discount > 0) && (
-        <span className="card__label">
+        <span
+          className={classNames('card__label', {
+            'card__label--red': !promoted,
+          })}
+        >
           {promoted ? 'Top sales' : `-${discount * 100}%`}
         </span>
       )}
