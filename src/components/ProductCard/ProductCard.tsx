@@ -34,10 +34,16 @@ export const ProductCard: FC<Props> = ({ product }) => {
   };
 
   // eslint-disable-next-line prettier/prettier
-  const { image, name, price, discount, capsules_amount, company, slug, total_amount } = product;
+  const { image, name, price, discount, capsules_amount, company, slug, total_amount, promoted  } = product;
 
   return (
     <div className="card">
+      {(promoted || discount > 0) && (
+        <span className="card__label">
+          {promoted ? 'Top sales' : `-${discount * 100}%`}
+        </span>
+      )}
+
       <Link to={`/product/${slug}`} className="card__link">
         <img src={`${image}`} alt={name} className="card__img" />
         <h2 className="card__title">{`${company}, ${name}, ${`${capsules_amount} capsules` || ''}`}</h2>

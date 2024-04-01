@@ -5,10 +5,24 @@
   width: 272px;
   padding: 32px 24px 24px;
   box-shadow: none;
-
+  position: relative;
   border: 1px solid rgba($color: $main-color, $alpha: .3);
   border-radius: 10px;
 
+  &__label {
+    height: 24px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 12px;
+    line-height: 24px;
+    position: absolute;
+    display: inline-block;
+    top: 8px;
+    background-color: rgb(255, 169, 0);
+    border-radius: 20px; 
+    color: #fff;
+    text-transform: uppercase;
+  }
   &__img {
     display: block;
     width: 208px;

@@ -79,7 +79,7 @@ export const HomePage = () => {
           <Loader />
         ) : (
           <ProductSlider
-            title="Hot prices"
+            title="Top sales"
             products={getFeaturedProducts(products)}
           />
         )}
