@@ -1,23 +1,37 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-console */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import '../../styles/form.scss';
 import { loginAsync } from '../../features/authSlice';
-import { useAppDispatch, usePageError } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Portal } from '../../components/Portal/Portal';
 // eslint-disable-next-line max-len
 import { PushNotification } from '../../components/PushNotification/PushNotification';
 import { validateEmail, validatePassword } from '../../helpers/validate';
+import {
+  clearNotification,
+  setNotification,
+} from '../../features/notificationSlice';
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [error, setError] = usePageError('');
+  const { notification } = useAppSelector(state => state.notification);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (notification) {
+        dispatch(clearNotification());
+      }
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [dispatch, notification]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,8 +40,12 @@ export const LoginPage = () => {
   return (
     <div className="form-container">
       <Portal>
-        <PushNotification message={`${error}`} />
+        <PushNotification
+          message={`${notification?.message}`}
+          type={notification?.type}
+        />
       </Portal>
+
       <Formik
         initialValues={{
           email: '',
@@ -38,10 +56,21 @@ export const LoginPage = () => {
           formikHelpers.setSubmitting(true);
           loginAsync({ email, password }, dispatch)
             .then(() => {
+              dispatch(
+                setNotification({
+                  message: 'You successfully logged in!',
+                  type: 'success',
+                }),
+              );
               navigate('/');
             })
             .catch(err => {
-              setError(`${err.message}: Please try again.`);
+              dispatch(
+                setNotification({
+                  message: `${err.message}. Please try again later.`,
+                  type: 'error',
+                }),
+              );
             })
             .finally(() => {
               formikHelpers.setSubmitting(false);

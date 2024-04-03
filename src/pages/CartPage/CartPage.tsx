@@ -99,7 +99,7 @@ export function CartPage() {
   return (
     <div className="cart">
       <Portal>
-        <PushNotification message={`${error}`} />
+        <PushNotification message={`${error}`} type="error" />
       </Portal>
       <Breadcrumbs links={linksObj} />
       <h1 className="cart__title">Cart</h1>

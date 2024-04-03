@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
@@ -10,18 +10,33 @@ import PhoneInputField from '../../components/PhoneInputField/PhoneInputField';
 import { authService } from '../../services/authService';
 import { Portal } from '../../components/Portal/Portal';
 import { PushNotification } from '../../components/PushNotification/PushNotification';
-import { usePageError } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   validateEmail,
   validateName,
   validatePassword,
 } from '../../helpers/validate';
+import {
+  clearNotification,
+  setNotification,
+} from '../../features/notificationSlice';
 
 export const RegistrationPage = () => {
+  const dispatch = useAppDispatch();
+  const { notification } = useAppSelector(state => state.notification);
   const [phoneError, setPhoneError] = useState<string | undefined>(undefined);
-  const [error, setError] = usePageError('');
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (notification?.type === 'error') {
+        dispatch(clearNotification());
+      }
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [dispatch, notification]);
 
   const onPhoneError = (err: string | undefined) => {
     setPhoneError(err);
@@ -34,7 +49,10 @@ export const RegistrationPage = () => {
   return (
     <div className="form-container">
       <Portal>
-        <PushNotification message={`${error}`} />
+        <PushNotification
+          message={`${notification?.message}`}
+          type={notification?.type}
+        />
       </Portal>
 
       <Formik
@@ -51,11 +69,22 @@ export const RegistrationPage = () => {
           authService
             .register({ name, email, password, phone })
             .then(() => {
+              dispatch(
+                setNotification({
+                  message: 'Registration was success',
+                  type: 'success',
+                }),
+              );
               navigate('/login');
             })
             .catch(err => {
               if (err.message) {
-                setError(`${err.message}: Please try again later.`);
+                dispatch(
+                  setNotification({
+                    message: `${err.message}. Please try again later.`,
+                    type: 'error',
+                  }),
+                );
               }
             })
             .finally(() => {

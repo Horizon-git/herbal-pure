@@ -3,27 +3,22 @@ import './PushNotification.scss';
 import classNames from 'classnames';
 
 type Props = {
-  message: string;
+  message: string | undefined;
+  type: 'success' | 'error' | undefined;
 };
 
-export const PushNotification: FC<Props> = ({ message }) => {
-  // const [visible, setVisible] = useState(visibility);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setVisible(false);
-  //   }, 3000);
-
-  //   return () => clearTimeout(timer);
-  // }, [visible]);
-
+export const PushNotification: FC<Props> = ({ message, type }) => {
   return (
     <div
       className={classNames('push-notification', {
         'push-notification--visible': !!message,
+        'push-notification--error': type === 'error',
+        'push-notification--success': type === 'success',
       })}
     >
-      <h2 className="push-notification__message">{message}</h2>
+      {message !== undefined && (
+        <h2 className="push-notification__message">{message}</h2>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import categoriesReducer from '../features/categoriesSlice';
 // eslint-disable-next-line import/no-cycle
 import authReducer from '../features/authSlice';
 import orderDetailReducer from '../features/orderDetailsSlice';
+import notificationReducer from '../features/notificationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     auth: authReducer,
     orderDetails: orderDetailReducer,
+    notification: notificationReducer,
   },
 });
 

@@ -4,7 +4,7 @@
   position: fixed;
   bottom: 20px;
   left: 43%;
-  background-color: red;
+  background-color: transparent;
   color: #fff;
   transform: translateY(150%);
   opacity: 0;
@@ -13,6 +13,14 @@
   transition: all 0.3s ease;
   width: 250px;
   line-height: 150%;
+
+  &--success {
+    background-color: $main-color;
+  }
+
+  &--error {
+    background-color: red;
+  }
 
   &--visible {
     transform: translateY(0%);
