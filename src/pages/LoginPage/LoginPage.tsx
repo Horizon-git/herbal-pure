@@ -1,4 +1,7 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-console */
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
@@ -8,37 +11,17 @@ import { useAppDispatch, usePageError } from '../../app/hooks';
 import { Portal } from '../../components/Portal/Portal';
 // eslint-disable-next-line max-len
 import { PushNotification } from '../../components/PushNotification/PushNotification';
-
-function validateEmail(value: string) {
-  if (!value) {
-    return 'Email is required';
-  }
-
-  const emailPattern = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
-
-  if (!emailPattern.test(value)) {
-    return 'Email is not valid';
-  }
-
-  return undefined;
-}
-
-function validatePassword(value: string) {
-  if (!value) {
-    return 'Password is required';
-  }
-
-  if (value.length < 6) {
-    return 'At least 6 characters';
-  }
-
-  return undefined;
-}
+import { validateEmail, validatePassword } from '../../helpers/validate';
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = usePageError('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="form-container">
@@ -88,12 +71,6 @@ export const LoginPage = () => {
                 <span className="icon is-small is-left">
                   <i className="fa fa-envelope" />
                 </span>
-
-                {touched.email && errors.email && (
-                  <span className="icon is-small is-right has-text-danger">
-                    <i className="fas fa-exclamation-triangle" />
-                  </span>
-                )}
               </div>
 
               {touched.email && errors.email && (
@@ -110,7 +87,7 @@ export const LoginPage = () => {
                 <Field
                   validate={validatePassword}
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   placeholder="*******"
                   className={cn('input form__input', {
@@ -122,11 +99,21 @@ export const LoginPage = () => {
                   <i className="fa fa-lock" />
                 </span>
 
-                {touched.password && errors.password && (
-                  <span className="icon is-small is-right has-text-danger">
-                    <i className="fas fa-exclamation-triangle" />
-                  </span>
-                )}
+                <span
+                  className={cn('icon is-small is-right', {
+                    pointer: true,
+                  })}
+                  onClick={togglePasswordVisibility}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <i
+                    className={cn('fa', {
+                      'fa-eye': showPassword,
+                      'fa-eye-slash': !showPassword,
+                    })}
+                  />
+                </span>
               </div>
 
               {touched.password && errors.password && (

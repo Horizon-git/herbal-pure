@@ -6,7 +6,6 @@ import { ProductSlider } from '../../components/ProductSlider/ProductSlider';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../features/productsSlice';
 import { Loader } from '../../components/Loader/Loader';
-import { getHotPriceProducts } from '../../helpers/getHotPriceProducts';
 import { getFeaturedProducts } from '../../helpers/getFeaturedProducts';
 import { Notification } from '../../components/Notification/Notification';
 
@@ -36,15 +35,6 @@ export const HomePage = () => {
     <div className="home">
       <Banner />
       <div className="home__container">
-        {loading ? (
-          <Loader />
-        ) : (
-          <ProductSlider
-            title="Hot prices"
-            products={getHotPriceProducts(products)}
-          />
-        )}
-
         <section className="about">
           <h1 className="about__title">About our company</h1>
           <div className="about__content">

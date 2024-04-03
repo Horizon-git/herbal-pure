@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 import { useState } from 'react';
@@ -19,9 +21,14 @@ export const RegistrationPage = () => {
   const [phoneError, setPhoneError] = useState<string | undefined>(undefined);
   const [error, setError] = usePageError('');
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onPhoneError = (err: string | undefined) => {
     setPhoneError(err);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -79,12 +86,6 @@ export const RegistrationPage = () => {
                 <span className="icon is-small is-left">
                   <i className="fa fa-user" />
                 </span>
-
-                {touched.name && errors.name && (
-                  <span className="icon is-small is-right has-text-danger">
-                    <i className="fas fa-exclamation-triangle" />
-                  </span>
-                )}
               </div>
 
               {touched.name && errors.name && (
@@ -111,12 +112,6 @@ export const RegistrationPage = () => {
                 <span className="icon is-small is-left">
                   <i className="fa fa-envelope" />
                 </span>
-
-                {touched.email && errors.email && (
-                  <span className="icon is-small is-right has-text-danger">
-                    <i className="fas fa-exclamation-triangle" />
-                  </span>
-                )}
               </div>
 
               {touched.email && errors.email && (
@@ -148,7 +143,7 @@ export const RegistrationPage = () => {
                 <Field
                   validate={validatePassword}
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   placeholder="*******"
                   className={cn('input form__input', {
@@ -160,11 +155,21 @@ export const RegistrationPage = () => {
                   <i className="fa fa-lock" />
                 </span>
 
-                {touched.password && errors.password && (
-                  <span className="icon is-small is-right has-text-danger">
-                    <i className="fas fa-exclamation-triangle" />
-                  </span>
-                )}
+                <span
+                  className={cn('icon is-small is-right', {
+                    pointer: true,
+                  })}
+                  onClick={togglePasswordVisibility}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <i
+                    className={cn('fa', {
+                      'fa-eye': showPassword,
+                      'fa-eye-slash': !showPassword,
+                    })}
+                  />
+                </span>
               </div>
 
               {touched.password && errors.password ? (

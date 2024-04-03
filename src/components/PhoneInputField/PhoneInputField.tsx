@@ -46,9 +46,6 @@ const PhoneInputField = ({
 
       {touched.phone && phoneError && (
         <>
-          <span className="icon is-small is-right has-text-danger">
-            <i className="fas fa-exclamation-triangle" />
-          </span>
           <p className="help is-danger">{phoneError}</p>
         </>
       )}

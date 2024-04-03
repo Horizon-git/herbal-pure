@@ -4,13 +4,11 @@
 import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect, useMemo } from 'react';
-import { ProductSlider } from '../../components/ProductSlider/ProductSlider';
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 import './ProductDetailsPage.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { addCartItem, removeCartItem } from '../../features/cartSlice';
 import { fetchProductDetails } from '../../features/productDetailsSlice';
-import { getSuggestedProducts } from '../../helpers/getSuggestions';
 import { Loader } from '../../components/Loader/Loader';
 import { fetchProducts } from '../../features/productsSlice';
 import { Notification } from '../../components/Notification/Notification';
@@ -155,7 +153,6 @@ export const ProductDetailsPage = () => {
             <h3 className="details__title">Suggested use</h3>
             <p className="details__text">{productDetails.instruction}</p>
           </div>
-          <ProductSlider title="Recommended products" products={getSuggestedProducts(products, productDetails.id, 8)} />
         </div>
       )}
     </div>

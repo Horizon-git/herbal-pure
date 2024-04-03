@@ -61,3 +61,8 @@
 .button[disabled] {
   background-color: $main-color;
 }
+
+.pointer {
+  pointer-events: all !important;
+  cursor: pointer;
+}
