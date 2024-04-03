@@ -106,22 +106,25 @@ export const ProductDetailsPage = () => {
                   </>
                 )}
               </div>
-              <div className="details__capsules-container">
-                <h3 className="details__capsules-title">{`Package quantity: ${productDetails.capsules_amount} Count`}</h3>
-                {productDetails.capsules_amount && (
-                  <div className="details__capsules">
-                    {productCapsules.map(capsuleCount => (
-                      <Link key={capsuleCount} to={`/product/${generateSlug(productDetails.name, productDetails.company, capsuleCount, productDetails.category)}`}>
-                        <div className={classNames('details__capsule-count', {
-                          'details__capsule-count--active': capsuleCount ===  productDetails.capsules_amount
-                        })}>
-                          <span>{`${capsuleCount} count`}</span>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {productDetails.capsules_amount && (
+                <div className="details__capsules-container">
+                  <h3 className="details__capsules-title">{`Package quantity: ${productDetails.capsules_amount} Count`}</h3>
+                  {productDetails.capsules_amount && (
+                    <div className="details__capsules">
+                      {productCapsules.map(capsuleCount => (
+                        <Link key={capsuleCount} to={`/product/${generateSlug(productDetails.name, productDetails.company, capsuleCount, productDetails.category)}`}>
+                          <div className={classNames('details__capsule-count', {
+                            'details__capsule-count--active': capsuleCount ===  productDetails.capsules_amount
+                          })}>
+                            <span>{`${capsuleCount} count`}</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <p className="details__description">{`${productDetails.description}`}</p>
               <p className="details__weight">{`Weight: ${productDetails.serving_size}`}</p>
               <button

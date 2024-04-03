@@ -47,4 +47,9 @@
     display: flex;
     gap: 20px;
   }
+
+  &__empty {
+    font-size: 21px;
+    font-weight: 700;
+  }
 }

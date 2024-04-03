@@ -215,7 +215,7 @@ export const StorePage = () => {
               </div>
               <div className="store__products">
                 {preparedProducts.length === 0
-                  ? 'Sorry, we don\'t have  any products that match your search.'
+                  ? <p className="store__empty">Sorry, we do not have any products that match your search.</p>
                   : <ProductList products={currentProducts} />
                 }
               </div>

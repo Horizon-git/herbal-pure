@@ -41,8 +41,8 @@ export const LoginPage = () => {
     <div className="form-container">
       <Portal>
         <PushNotification
-          message={`${notification?.message}`}
-          type={notification?.type}
+          message={`${notification.message}`}
+          type={notification.type}
         />
       </Portal>
 

@@ -2,11 +2,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type NotificationState = {
-  notification: { message: string; type: 'success' | 'error' } | null;
+  notification: { message: string; type: 'success' | 'error' | '' };
 };
 
 const initialState: NotificationState = {
-  notification: null,
+  notification: { message: '', type: '' },
 };
 
 const notificationSlice = createSlice({
@@ -17,7 +17,7 @@ const notificationSlice = createSlice({
       state.notification = action.payload;
     },
     clearNotification(state) {
-      state.notification = null;
+      state.notification = { message: '', type: '' };
     },
   },
 });

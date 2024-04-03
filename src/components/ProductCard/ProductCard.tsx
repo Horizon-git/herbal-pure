@@ -49,8 +49,16 @@ export const ProductCard: FC<Props> = ({ product }) => {
       )}
 
       <Link to={`/product/${slug}`} className="card__link">
-        <img src={`${image}`} alt={name} className="card__img" />
-        <h2 className="card__title">{`${company}, ${name}, ${`${capsules_amount} capsules` || ''}`}</h2>
+        <img
+          src={`${image}`}
+          alt={name}
+          className="card__img"
+          onError={e => {
+            // eslint-disable-next-line no-param-reassign
+            (e.target as HTMLImageElement).src = 'img/no-image.png';
+          }}
+        />
+        <h2 className="card__title">{`${company}, ${name}${capsules_amount ? `, ${capsules_amount} capsules` : ''}`}</h2>
 
         <div className="card__price">
           {discount === 0 ? (

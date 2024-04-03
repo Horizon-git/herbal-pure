@@ -3,8 +3,8 @@ import './PushNotification.scss';
 import classNames from 'classnames';
 
 type Props = {
-  message: string | undefined;
-  type: 'success' | 'error' | undefined;
+  message: string;
+  type: 'success' | 'error' | '';
 };
 
 export const PushNotification: FC<Props> = ({ message, type }) => {
@@ -16,9 +16,7 @@ export const PushNotification: FC<Props> = ({ message, type }) => {
         'push-notification--success': type === 'success',
       })}
     >
-      {message !== undefined && (
-        <h2 className="push-notification__message">{message}</h2>
-      )}
+      <h2 className="push-notification__message">{message}</h2>
     </div>
   );
 };

@@ -50,8 +50,8 @@ export const HomePage = () => {
     <div className="home">
       <Portal>
         <PushNotification
-          message={`${notification?.message}`}
-          type={notification?.type}
+          message={`${notification.message}`}
+          type={notification.type}
         />
       </Portal>
       <Banner />
