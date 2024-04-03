@@ -18,16 +18,12 @@
   }
 
   &__logo {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    font-size: 42px;
-    color: $main-color;
-    padding: 15px;
+    padding-block: 10px;
     transition: all .3s;
 
     &:hover {
       color: $main-color;
-      transform: scale(1.05);
+      transform: scale(1.15);
     }
   }
 

@@ -91,6 +91,10 @@ export const ProductDetailsPage = () => {
               src={productDetails.image}
               alt="productImage"
               className="details__image"
+              onError={e => {
+                // eslint-disable-next-line no-param-reassign
+                (e.target as HTMLImageElement).src = 'img/no-image.png';
+              }}
             />
             <div className="details__right">
               <h2 className="details__name">{`${productDetails.company}, ${productDetails.name}, ${`${productDetails.capsules_amount} capsules` || ''}`}</h2>

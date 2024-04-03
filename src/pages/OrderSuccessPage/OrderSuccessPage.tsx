@@ -25,7 +25,11 @@ export const OrderSuccessPage = () => {
   }
 
   if (hasError) {
-    return <Notification message="Failed to load the order details." />;
+    return (
+      <div className="order-details">
+        <Notification message="Failed to load the order details." />
+      </div>
+    );
   }
 
   return (

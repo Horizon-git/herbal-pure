@@ -14,6 +14,10 @@ export const OrderSummaryItem: React.FC<Props> = ({ item }) => (
         src={item.product.image}
         alt={`${item.product.name}`}
         className="order-item__image"
+        onError={e => {
+          // eslint-disable-next-line no-param-reassign
+          (e.target as HTMLImageElement).src = 'img/no-image.png';
+        }}
       />
       <div className="order-item__info">
         <Link className="order-item__link" to={`/product/${item.product.slug}`}>

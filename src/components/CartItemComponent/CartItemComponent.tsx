@@ -41,7 +41,15 @@ export const CartItemComponent: React.FC<Props> = ({ item }) => {
   return (
     <tr className="cart__table-row" key={item.id}>
       <td className="cart__table-col">
-        <img src={item.image} alt={item.name} className="cart__image" />
+        <img
+          src={item.image}
+          alt={item.name}
+          className="cart__image"
+          onError={e => {
+            // eslint-disable-next-line no-param-reassign
+            (e.target as HTMLImageElement).src = 'img/no-image.png';
+          }}
+        />
       </td>
       <td className="cart__table-col">
         <Link

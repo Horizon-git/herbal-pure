@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import './Nav.scss';
+import '../../styles/logo.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getTotalCount } from '../../helpers/getTotalCount';
 import { logout } from '../../features/authSlice';
@@ -10,10 +11,6 @@ export const headerLinks = [
   {
     name: 'Home',
     path: '/',
-  },
-  {
-    name: 'About us',
-    path: '/about-us',
   },
   {
     name: 'Store',
@@ -53,7 +50,7 @@ export const Header = () => {
     <header className="header">
       <div className="header__container">
         <Link to="/" className="header__logo">
-          hP
+          <img src="logo.png" alt="logo" className="logo" />
         </Link>
         <nav className="header__nav nav">
           <ul className="nav__list">

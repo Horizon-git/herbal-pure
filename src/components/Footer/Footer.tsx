@@ -2,25 +2,6 @@
 import { Link } from 'react-router-dom';
 import './Footer.scss';
 
-export const footerLinks = [
-  {
-    name: 'Home',
-    path: '/',
-  },
-  {
-    name: 'About us',
-    path: '/about-us',
-  },
-  {
-    name: 'Shop',
-    path: '/shop',
-  },
-  {
-    name: 'Contact us',
-    path: '/contact-us',
-  },
-];
-
 export const Footer = () => {
   const goToTop = () => {
     window.scrollTo({
@@ -33,7 +14,7 @@ export const Footer = () => {
     <footer className="footer">
       <div className="footer__container">
         <Link to="/" className="footer__logo">
-          hP
+          <img src="logo.png" alt="logo" className="logo" />
         </Link>
         <div className="footer__content">
           <div className="footer__left">
