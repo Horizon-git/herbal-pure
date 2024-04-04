@@ -1,5 +1,7 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 import { Formik, Form, Field } from 'formik';
+import { useEffect } from 'react';
 import cn from 'classnames';
 import '../../styles/form.scss';
 import {
@@ -7,10 +9,37 @@ import {
   validateMessage,
   validateName,
 } from '../../helpers/validate';
+import { sendPostContactUs } from '../../services/contactForm';
+import { PushNotification } from '../../components/PushNotification/PushNotification';
+import { Portal } from '../../components/Portal/Portal';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  clearNotification,
+  setNotification,
+} from '../../features/notificationSlice';
 
 export const ContactUsPage = () => {
+  const dispatch = useAppDispatch();
+  const { notification } = useAppSelector(state => state.notification);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (notification) {
+        dispatch(clearNotification());
+      }
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [dispatch, notification]);
+
   return (
     <div className="form-container">
+      <Portal>
+        <PushNotification
+          message={`${notification.message}`}
+          type={notification.type}
+        />
+      </Portal>
       <Formik
         initialValues={{
           name: '',
@@ -18,8 +47,33 @@ export const ContactUsPage = () => {
           message: '',
         }}
         validateOnMount
-        onSubmit={({ email, name, message }) => {
-          console.log(email, name, message);
+        onSubmit={({ email, name, message }, formikHelpers) => {
+          formikHelpers.setSubmitting(true);
+
+          sendPostContactUs({ name, email, message })
+            .then(() => {
+              dispatch(
+                setNotification({
+                  message:
+                    'Message has been sent! Our team will contact you soon',
+                  type: 'success',
+                }),
+              );
+              formikHelpers.resetForm();
+            })
+            .catch(err => {
+              if (err.message) {
+                dispatch(
+                  setNotification({
+                    message: `${err.message}. Please try again later.`,
+                    type: 'error',
+                  }),
+                );
+              }
+            })
+            .finally(() => {
+              formikHelpers.setSubmitting(false);
+            });
         }}
       >
         {({ touched, errors, isSubmitting }) => (
