@@ -10,7 +10,6 @@ import { checkAuthAsync } from './features/authSlice';
 
 export const App = () => {
   const dispatch = useAppDispatch();
-  // const { user } = useAppSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(checkAuthAsync());

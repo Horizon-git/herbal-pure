@@ -11,7 +11,7 @@ interface Props {
   categories: Category[];
 }
 
-export const CategoryWidget: React.FC<Props> = ({ categories }) => {
+export const CategoryWidget: React.FC<Props> = React.memo(({ categories }) => {
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
   const { categoryId = '' } = useParams();
 
@@ -84,4 +84,4 @@ export const CategoryWidget: React.FC<Props> = ({ categories }) => {
       </ul>
     </div>
   );
-};
+});

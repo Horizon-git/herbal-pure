@@ -11,7 +11,6 @@ import { Pagination } from '../../components/Pagination/Pagination';
 import { Sort } from '../../types/Sort';
 import { getSearchWith } from '../../helpers/searchWith';
 import { CategoryWidget } from '../../components/CategoryWidget/CategoryWidget';
-import { DropDown } from '../../components/DropDown/DropDown';
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts, fetchProductsByCategory } from '../../features/productsSlice';
@@ -20,27 +19,7 @@ import { findCategoryById } from '../../helpers/getCategoryName';
 import { PriceFilter } from '../../components/PriceFilter/PriceFilter';
 import { Loader } from '../../components/Loader/Loader';
 import { Notification } from '../../components/Notification/Notification';
-
-const sortOptions = [
-  {
-    label: 'Alphabetically',
-    value: 'name',
-  },
-  {
-    label: 'Newest',
-    value: 'id',
-  },
-  {
-    label: 'Cheapest',
-    value: 'price',
-  },
-];
-
-const itemsPerPageOptions = [
-  { label: '6', value: '6' },
-  { label: '12', value: '12' },
-];
-
+import { SortBar } from '../../components/SortBar/SortBar';
 
 export const StorePage = () => {
   const dispatch = useAppDispatch();
@@ -61,8 +40,8 @@ export const StorePage = () => {
   const minPrice = searchParams.get('minPrice') || '';
   const maxPrice = searchParams.get('maxPrice') || '';
   const getSort = searchParams.get('sort') || 'name';
-  const [sortValue, setSortValue] = useState(getSort);
-  const [showItems, setShowItems] = useState(perPage);
+  const [sortValue, setSortValue] = useState<string>(getSort);
+  const [showItems, setShowItems] = useState<string>(perPage);
 
   useEffect(() => {
     if (categoryId) {
@@ -183,48 +162,35 @@ export const StorePage = () => {
         <div className="store__content">
           <aside className="store__sidebar">
             <Search />
-            {categoryLoading ? <Loader /> : <CategoryWidget  categories={categories}/>}
+            <CategoryWidget  categories={categories}/>
             <PriceFilter 
               initialMinPrice={0} 
               initialMaxPrice={productsMaxPrice} 
             />
           </aside>
-          {loading ? (<Loader />) : (
-            <div className="store__main">
-              <div className="store__sort-bar">
-                <span className="store__product-count">
-                  {`${preparedProducts.length} results`} {(currentProducts.length !== preparedProducts.length) 
-                          && currentPage && `(showing ${indexOfFirstItem + 1} - ${indexOfLastItem})`}
-                </span>
-                <div className="store__dropdowns">
-                  <DropDown
-                    label="Sort by"
-                    name="sort"
-                    value={sortValue}
-                    options={sortOptions}
-                    onChange={handleSortChange}
-                  />
-                  <DropDown
-                    label="Show"
-                    name="show"
-                    value={showItems}
-                    options={itemsPerPageOptions}
-                    onChange={handleShowChange}
-                  />
-                </div>
-              </div>
-              <div className="store__products">
-                {preparedProducts.length === 0
-                  ? <p className="store__empty">Sorry, we do not have any products that match your search.</p>
-                  : <ProductList products={currentProducts} />
-                }
-              </div>
-              {(currentProducts.length !== preparedProducts.length) 
-                          && currentPage && (
-                <Pagination total={preparedProducts.length} />
-              )}
+          <div className="store__main">
+            <SortBar
+              sortValue={sortValue}
+              showItems={showItems}
+              handleSortChange={handleSortChange}
+              handleShowChange={handleShowChange}
+              preparedProductsLength={preparedProducts.length}
+              currentProductsLength={currentProducts.length}
+              currentPage={currentPage}
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+            />
+            <div className="store__products">
+              {preparedProducts.length === 0
+                ? <p className="store__empty">Sorry, we do not have any products that match your search.</p>
+                : <ProductList products={currentProducts} />
+              }
             </div>
-          )}
+            {(currentProducts.length !== preparedProducts.length) 
+                          && currentPage && (
+              <Pagination total={preparedProducts.length} />
+            )}
+          </div>
 
         </div>
       </div>

@@ -3,10 +3,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { authService } from '../services/authService';
 // eslint-disable-next-line import/no-cycle
 import { AppDispatch } from '../app/store';
-import { UserData } from '../types/UserData';
+import { User } from '../types/User';
 
 type AuthState = {
-  user: UserData | null;
+  user: Omit<User, 'password'> | null;
   isChecked: boolean;
   error: string | undefined;
 };

@@ -67,7 +67,7 @@ export const RegistrationPage = () => {
           formikHelpers.setSubmitting(true);
 
           authService
-            .register({ name, email, password, phone })
+            .register({ name, email, password, phone_number: phone })
             .then(() => {
               dispatch(
                 setNotification({

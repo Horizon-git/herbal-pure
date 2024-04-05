@@ -1,7 +1,7 @@
-import { UserData } from './UserData';
+import { User } from './User';
 
 export interface LoginResponse {
   access: string;
   refresh: string;
-  user: UserData;
+  user: Omit<User, 'password'>;
 }

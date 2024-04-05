@@ -1,0 +1,21 @@
+@import '../../styles/utils';
+
+.sort-bar {
+  width: 864px;
+  height: 64px;
+  background-color: $light-gray;
+  display: flex;
+  align-items: center;
+  padding-inline: 20px;
+  justify-content: space-between;
+
+  &__product-count {
+    font-size: 14px;
+  }
+  
+  &__dropdowns {
+    display: flex;
+    gap: 20px;
+  }
+}
+
