@@ -44,7 +44,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
             'card__label--red': !promoted,
           })}
         >
-          {promoted ? 'Top sales' : `-${discount * 100}%`}
+          {promoted ? 'Top sales' : `-${discount}%`}
         </span>
       )}
 

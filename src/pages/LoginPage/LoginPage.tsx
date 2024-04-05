@@ -8,7 +8,6 @@ import cn from 'classnames';
 import '../../styles/form.scss';
 import { loginAsync } from '../../features/authSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Portal } from '../../components/Portal/Portal';
 // eslint-disable-next-line max-len
 import { PushNotification } from '../../components/PushNotification/PushNotification';
 import { validateEmail, validatePassword } from '../../helpers/validate';
@@ -39,12 +38,10 @@ export const LoginPage = () => {
 
   return (
     <div className="form-container">
-      <Portal>
-        <PushNotification
-          message={`${notification.message}`}
-          type={notification.type}
-        />
-      </Portal>
+      <PushNotification
+        message={`${notification.message}`}
+        type={notification.type}
+      />
 
       <Formik
         initialValues={{
@@ -65,12 +62,21 @@ export const LoginPage = () => {
               navigate('/');
             })
             .catch(err => {
-              dispatch(
-                setNotification({
-                  message: `${err.message}. Please try again later.`,
-                  type: 'error',
-                }),
-              );
+              if (err.response.status === 401) {
+                dispatch(
+                  setNotification({
+                    message: `There is no user with given credentials. Please try again.`,
+                    type: 'error',
+                  }),
+                );
+              } else {
+                dispatch(
+                  setNotification({
+                    message: `${err.message}. Please try again later.`,
+                    type: 'error',
+                  }),
+                );
+              }
             })
             .finally(() => {
               formikHelpers.setSubmitting(false);

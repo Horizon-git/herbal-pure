@@ -8,7 +8,6 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import PhoneInputField from '../../components/PhoneInputField/PhoneInputField';
 import { authService } from '../../services/authService';
-import { Portal } from '../../components/Portal/Portal';
 import { PushNotification } from '../../components/PushNotification/PushNotification';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -48,12 +47,10 @@ export const RegistrationPage = () => {
 
   return (
     <div className="form-container">
-      <Portal>
-        <PushNotification
-          message={`${notification.message}`}
-          type={notification.type}
-        />
-      </Portal>
+      <PushNotification
+        message={`${notification.message}`}
+        type={notification.type}
+      />
 
       <Formik
         initialValues={{
@@ -79,12 +76,27 @@ export const RegistrationPage = () => {
             })
             .catch(err => {
               if (err.message) {
-                dispatch(
-                  setNotification({
-                    message: `${err.message}. Please try again later.`,
-                    type: 'error',
-                  }),
-                );
+                if (err.response.status === 400) {
+                  const resData = err.response.data;
+
+                  formikHelpers.setFieldError('email', resData?.email);
+                  formikHelpers.setFieldError('password', resData?.password);
+                  formikHelpers.setFieldError('name', resData?.name);
+                  formikHelpers.setFieldError('phone', resData?.phone_number);
+                  dispatch(
+                    setNotification({
+                      message: `Please enter valid data`,
+                      type: 'error',
+                    }),
+                  );
+                } else {
+                  dispatch(
+                    setNotification({
+                      message: `${err.message}. Please try again later.`,
+                      type: 'error',
+                    }),
+                  );
+                }
               }
             })
             .finally(() => {

@@ -11,7 +11,6 @@ import {
 } from '../../helpers/validate';
 import { sendPostContactUs } from '../../services/contactForm';
 import { PushNotification } from '../../components/PushNotification/PushNotification';
-import { Portal } from '../../components/Portal/Portal';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   clearNotification,
@@ -34,12 +33,10 @@ export const ContactUsPage = () => {
 
   return (
     <div className="form-container">
-      <Portal>
-        <PushNotification
-          message={`${notification.message}`}
-          type={notification.type}
-        />
-      </Portal>
+      <PushNotification
+        message={`${notification.message}`}
+        type={notification.type}
+      />
       <Formik
         initialValues={{
           name: '',

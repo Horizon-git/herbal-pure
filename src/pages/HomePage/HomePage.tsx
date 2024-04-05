@@ -9,7 +9,6 @@ import { fetchProducts } from '../../features/productsSlice';
 import { Loader } from '../../components/Loader/Loader';
 import { getFeaturedProducts } from '../../helpers/getFeaturedProducts';
 import { Notification } from '../../components/Notification/Notification';
-import { Portal } from '../../components/Portal/Portal';
 import { PushNotification } from '../../components/PushNotification/PushNotification';
 import { clearNotification } from '../../features/notificationSlice';
 
@@ -48,12 +47,10 @@ export const HomePage = () => {
 
   return (
     <div className="home">
-      <Portal>
-        <PushNotification
-          message={`${notification.message}`}
-          type={notification.type}
-        />
-      </Portal>
+      <PushNotification
+        message={`${notification.message}`}
+        type={notification.type}
+      />
       <Banner />
       <div className="home__container">
         <section className="about">

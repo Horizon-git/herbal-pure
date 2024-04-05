@@ -13,7 +13,6 @@ import {
 } from '../../helpers/getDiscontedPrice';
 import { orderProducts } from '../../services/orders';
 import { Order } from '../../types/Order';
-import { Portal } from '../../components/Portal/Portal';
 import { PushNotification } from '../../components/PushNotification/PushNotification';
 import { clearCart } from '../../features/cartSlice';
 
@@ -98,9 +97,7 @@ export function CartPage() {
 
   return (
     <div className="cart">
-      <Portal>
-        <PushNotification message={`${error}`} type="error" />
-      </Portal>
+      <PushNotification message={`${error}`} type="error" />
       <Breadcrumbs links={linksObj} />
       <h1 className="cart__title">Cart</h1>
       <div className="cart__container">
