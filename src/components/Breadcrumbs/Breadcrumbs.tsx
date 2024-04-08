@@ -13,14 +13,18 @@ export const Breadcrumbs: React.FC<Props> = ({ links }) => {
       {links.map(({ label, to }, index) => (
         <div key={to} className="breadcrumbs__part">
           {index > 0 && <span className="breadcrumbs__separator">/</span>}
-          <Link
-            to={to}
-            className={classNames('breadcrumbs__link', {
-              'breadcrumbs__link--active': links[links.length - 1].to === to,
-            })}
-          >
-            {label}
-          </Link>
+          {index === links.length - 1 ? (
+            <span className="breadcrumbs__span">{label}</span>
+          ) : (
+            <Link
+              to={to}
+              className={classNames('breadcrumbs__link', {
+                'breadcrumbs__link--active': links[links.length - 1].to === to,
+              })}
+            >
+              {label}
+            </Link>
+          )}
         </div>
       ))}
     </div>

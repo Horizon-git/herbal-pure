@@ -13,8 +13,12 @@ const sortOptions = [
     value: 'id',
   },
   {
-    label: 'Cheapest',
-    value: 'price',
+    label: 'Price: from low to high',
+    value: 'lowest-price',
+  },
+  {
+    label: 'Price: from high to low',
+    value: 'highest-price',
   },
 ];
 

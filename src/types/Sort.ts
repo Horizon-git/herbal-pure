@@ -1,5 +1,6 @@
 export enum Sort {
   newest = 'id',
-  cheapest = 'price',
+  lowestPrice = 'lowest-price',
+  highestPrice = 'highest-price',
   alphabet = 'name',
 }

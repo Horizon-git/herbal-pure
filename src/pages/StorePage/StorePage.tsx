@@ -28,10 +28,12 @@ export const StorePage = () => {
 
   const { categoryId = '' } = useParams();
 
-  const productsMaxPrice = products.reduce(
-    (max: number, product: Product) => Math.max(max, product.price),
-    0,
-  ) || 10;
+  const productsMaxPrice = useMemo(() => {
+    return products.reduce(
+      (max: number, product: Product) => Math.max(max, product.price),
+      0,
+    ) || 10;
+  }, [products]);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const perPage = searchParams.get('show') || '6';
@@ -86,13 +88,22 @@ export const StorePage = () => {
           (p1, p2) => p2[sortValue] - p1[sortValue],
         );
         break;
-      case Sort.cheapest:
+      case Sort.lowestPrice:
         sortedProducts = [...filteredProducts].sort(
           (p1, p2) =>
             p1.price * ((100 - p1.discount) / 100)
             - p2.price * ((100 - p2.discount) / 100),
         );
         break;
+
+      case Sort.highestPrice:
+        sortedProducts = [...filteredProducts].sort(
+          (p1, p2) =>
+            p2.price * ((100 - p2.discount) / 100)
+              - p1.price * ((100 - p1.discount) / 100),
+        );
+        break;
+        
 
       default:
         return filteredProducts;
@@ -162,7 +173,7 @@ export const StorePage = () => {
         <div className="store__content">
           <aside className="store__sidebar">
             <Search />
-            <CategoryWidget  categories={categories}/>
+            <CategoryWidget categories={categories}/>
             <PriceFilter 
               initialMinPrice={0} 
               initialMaxPrice={productsMaxPrice} 
