@@ -7,7 +7,7 @@ type Props = {
   products: Product[];
 };
 
-export const ProductList: React.FC<Props> = React.memo(({ products }) => {
+const ProductList: React.FC<Props> = ({ products }) => {
   return (
     <div className="product-list">
       {products.map(product => (
@@ -15,4 +15,6 @@ export const ProductList: React.FC<Props> = React.memo(({ products }) => {
       ))}
     </div>
   );
-});
+};
+
+export default React.memo(ProductList);

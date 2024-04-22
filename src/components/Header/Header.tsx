@@ -50,7 +50,7 @@ export const Header = () => {
     <header className="header">
       <div className="header__container">
         <Link to="/" className="header__logo">
-          <img src="logo.png" alt="logo" className="logo" />
+          <img src="/logo.png" alt="logo" className="logo" />
         </Link>
         <nav className="header__nav nav">
           <ul className="nav__list">

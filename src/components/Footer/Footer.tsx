@@ -14,7 +14,7 @@ export const Footer = () => {
     <footer className="footer">
       <div className="footer__container">
         <Link to="/" className="footer__logo">
-          <img src="logo.png" alt="logo" className="logo" />
+          <img src="/logo.png" alt="logo" className="logo" />
         </Link>
         <div className="footer__content">
           <div className="footer__left">

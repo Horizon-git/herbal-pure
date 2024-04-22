@@ -3,7 +3,6 @@
 /* eslint-disable prettier/prettier */
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { ProductList } from '../../components/ProductList/ProductList';
 import { Search } from '../../components/Search/Search';
 import './StorePage.scss';
 import { Product } from '../../types/Product';
@@ -20,6 +19,7 @@ import { PriceFilter } from '../../components/PriceFilter/PriceFilter';
 import { Loader } from '../../components/Loader/Loader';
 import { Notification } from '../../components/Notification/Notification';
 import { SortBar } from '../../components/SortBar/SortBar';
+import ProductList from '../../components/ProductList/ProductList';
 
 export const StorePage = () => {
   const dispatch = useAppDispatch();
@@ -103,7 +103,7 @@ export const StorePage = () => {
               - p1.price * ((100 - p1.discount) / 100),
         );
         break;
-        
+
 
       default:
         return filteredProducts;
@@ -142,7 +142,7 @@ export const StorePage = () => {
     { to: '/', label: 'Home' },
     { to: '/store', label: 'Store' },
   ];
-  
+
   const linksObj2 = [
     { to: '/', label: 'Home' },
     { to: '/store', label: 'Store' },
@@ -174,9 +174,9 @@ export const StorePage = () => {
           <aside className="store__sidebar">
             <Search />
             <CategoryWidget categories={categories}/>
-            <PriceFilter 
-              initialMinPrice={0} 
-              initialMaxPrice={productsMaxPrice} 
+            <PriceFilter
+              initialMinPrice={0}
+              initialMaxPrice={productsMaxPrice}
             />
           </aside>
           <div className="store__main">
@@ -197,7 +197,7 @@ export const StorePage = () => {
                 : <ProductList products={currentProducts} />
               }
             </div>
-            {(currentProducts.length !== preparedProducts.length) 
+            {(currentProducts.length !== preparedProducts.length)
                           && currentPage && (
               <Pagination total={preparedProducts.length} />
             )}

@@ -17,7 +17,7 @@ export const CategoryWidget: React.FC<Props> = React.memo(({ categories }) => {
 
   const sortedCategories = [...categories].sort((a, b) => {
     if (a.subcategories.length > 0 && b.subcategories.length === 0) {
-      return -1; 
+      return -1;
     }
 
     if (a.subcategories.length === 0 && b.subcategories.length > 0) {
