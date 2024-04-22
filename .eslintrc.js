@@ -5,6 +5,8 @@ module.exports = {
       ignoreTemplateLiterals: true,
       ignoreComments: true,
     }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/display-name": "off",
     'jsx-a11y/label-has-associated-control': ["error", {
       assert: "either",
     }],
